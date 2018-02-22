@@ -52,7 +52,7 @@ public class ObjectModel {
     }
 
     public String toString() {
-        return String.format("\nFilm: id=%s, title=%s, year=%s, rating=%s\n", id, title, year, rating);
+        return String.format("\t%s. %s(%s) %s\n", id, title, year, rating);
     }
 
 }

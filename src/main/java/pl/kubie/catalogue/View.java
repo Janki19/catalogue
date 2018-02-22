@@ -9,7 +9,7 @@ public class View {
     private final String backTitle="9. To back to main menu";
     private final String borderLine="--------------------------------------------------------------------------";
     private String titleOfFilm;
-    private int yearOfFilm;
+    private String yearOfFilm;
 
     public View(){
     }
@@ -29,8 +29,8 @@ public class View {
         System.out.println("\n\t"+welcome+"\n");
         System.out.println("\t\t"+listFilms);
         System.out.println("\t\t"+addFilm);
-        System.out.println("\t\t"+editFilm);
-        System.out.println("\t\t"+deleteFilm);
+//        System.out.println("\t\t"+editFilm);
+//        System.out.println("\t\t"+deleteFilm);
         System.out.println("\n\t\t"+exit);
 
         return answer.nextInt();
@@ -41,12 +41,12 @@ public class View {
      */
       private final String welcomeList="FILMS LIST";
 
-    public int dispalyFilmsList(){
+    public int dispalyFilmsList(List<ObjectModel>list){
         System.out.println(borderLine);
         System.out.println("\n\t"+welcomeList+"\n");
-
+        System.out.println(list);
         System.out.println("\t"+backTitle+"\n");
-        return answer.nextInt();
+       return answer.nextInt();
     }
 
 
@@ -67,11 +67,12 @@ public class View {
         System.out.println("\n\t"+welcomeAdd+"\n");
 
             Scanner input=new Scanner(System.in);
+
             System.out.println(titleRequest);
             this.titleOfFilm=input.nextLine();
 
             System.out.println("\n"+yearRequest);
-            this.yearOfFilm=input.nextInt();
+            this.yearOfFilm=input.nextLine();
 
             System.out.println("\n"+nextRequest);
             String yesNo=input.next();
@@ -92,9 +93,21 @@ public class View {
         return titleOfFilm;
     }
 
-    public int getYearOfFilm(){
+    public String getYearOfFilm(){
         return yearOfFilm;
     }
+    public void clearTitleYear(){
+        this.titleOfFilm=null;
+        this.yearOfFilm=null;
+    }
+
+
+
+
+
+
+
+
 
     /*
         Edit view

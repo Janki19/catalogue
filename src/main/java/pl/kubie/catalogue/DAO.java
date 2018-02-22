@@ -7,11 +7,12 @@ import java.util.List;
 public class DAO {
     private  Connection connection=null;
 
-    public  void main (String arg[]) throws SQLException {
-        DAO dao=new DAO();
-        System.out.println(displayAllRecords());
-
-    }
+//    public  static void main (String arg[]) throws SQLException {
+//        DAO dao=new DAO();
+//        List<ObjectModel> w=dao.displayAllRecords();
+//        System.out.println(w);
+//
+//    }
 
     public DAO() {
         String url = "jdbc:mysql://localhost:3306/consolelibrary?autoReconnect=true&useSSL=false";
@@ -60,17 +61,23 @@ public class DAO {
     /*
     Display all records from data base.
      */
-    public List<ObjectModel> displayAllRecords() throws SQLException {
+    public List<ObjectModel> displayAllRecords() {
             List<ObjectModel>list=new ArrayList<>();
-        Statement myStm=connection.createStatement();
-        ResultSet resSet=myStm.executeQuery("select * from console");
+        Statement myStm= null;
+        try {
+            myStm = connection.createStatement();
+            ResultSet resSet=myStm.executeQuery("select * from console");
 
-        while (resSet.next()) {
-            ObjectModel tempObject=convertRowToObjectModel(resSet);
-            list.add(tempObject);
+            while (resSet.next()) {
+                ObjectModel tempObject=convertRowToObjectModel(resSet);
+                list.add(tempObject);
+            }
+            resSet.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        resSet.close();
-        connection.close();
+
         return list;
     }
 
