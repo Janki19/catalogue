@@ -1,22 +1,21 @@
 package pl.kubie.catalogue;
 
-public class ObjectModel {
+public class FilmsModel {
     private int id;
     private String title;
     private String year;
     private float rating;
 
-    public ObjectModel() {
+    public FilmsModel() {
     }
 
-    public ObjectModel(int id,String title, String year,float rating) {
+    public FilmsModel(int id, String title, String year, float rating) {
 
         this.id = id;
         this.title = title;
         this.year = year;
         this.rating = rating;
     }
-
 
     public void setId(int id) {
         this.id = id;

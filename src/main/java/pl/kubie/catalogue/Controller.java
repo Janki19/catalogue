@@ -1,21 +1,18 @@
 package pl.kubie.catalogue;
 
-
 import java.sql.SQLException;
-import java.util.List;
 
 public class Controller {
 
-    private ObjectModel model;
+    private FilmsModel model;
     private View view;
     private DAO dao;
 
-    public Controller(ObjectModel model, View view) {
-        this.model = model;
+    public Controller(View view,DAO dao) {
+        this.dao=dao;
         this.view = view;
         displayMainMenu();
     }
-
 
     public void displayMainMenu(){
         int menuAnswer=view.displayMainMenuView();
@@ -23,7 +20,6 @@ public class Controller {
     }
 
     public void displayFilmsList(){
-        dao=new DAO();
         int menuAnswer=view.dispalyFilmsList(dao.displayAllRecords());
         switchViews(menuAnswer);
     }
@@ -32,23 +28,26 @@ public class Controller {
 
         boolean saveAnswer=view.dispalyAdd();
 
-        if(saveAnswer==true){
-            try {
-                dao=new DAO();
-                dao.insertNewRecord(view.getTitleOfFilm(),view.getYearOfFilm());
-                view.clearTitleYear();
-                switchViews(9);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        if(saveAnswer){
+            saveFilm();
+            switchViews(9);
         }else{
             view.clearTitleYear();
             switchViews(9);
         }
     }
 
-
-
+    private void saveFilm(){
+        try {
+            model=new FilmsModel();
+            model.setTitle(view.getTitleOfFilm());
+            model.setYear(view.getYearOfFilm());
+            dao.save(model);
+            view.clearTitleYear();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void switchViews(int number){
         switch(number){
@@ -56,13 +55,10 @@ public class Controller {
                 break;
             case 2:displayAddFilm();
                 break;
-            case 3:view.dispalyEdit();
-                break;
-            case 4:view.dispalyDelete();
-                break;
             case 9:displayMainMenu();
                 break;
-            case 0:System.exit(0);
+            case 0: dao.closeConnetion();
+                    System.exit(0);
                 break;
         }
     }

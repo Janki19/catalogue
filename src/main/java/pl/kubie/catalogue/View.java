@@ -5,11 +5,12 @@ import java.util.Scanner;
 
 public class View {
 
-    private Scanner answer=new Scanner(System.in);
-    private final String backTitle="9. To back to main menu";
+    private Scanner answer;
+    private final String backTitle="9. Back to main menu";
     private final String borderLine="--------------------------------------------------------------------------";
     private String titleOfFilm;
     private String yearOfFilm;
+    private int ret=99;
 
     public View(){
     }
@@ -19,29 +20,27 @@ public class View {
 
      */
     private final String welcome="MENU FILMS LIBRARY";
-    private final String listFilms="1. Show films list.";
+    private final String filmsList="1. Show films list.";
     private final String addFilm="2. Add new film.";
-    private final String editFilm="3. Edit film.";
-    private final String deleteFilm="4. Delete film;";
     private final String exit="0. EXIT";
 
     public  int displayMainMenuView(){
+        answer=new Scanner(System.in);
         System.out.println("\n\t"+welcome+"\n");
-        System.out.println("\t\t"+listFilms);
+        System.out.println("\t\t"+filmsList);
         System.out.println("\t\t"+addFilm);
-//        System.out.println("\t\t"+editFilm);
-//        System.out.println("\t\t"+deleteFilm);
         System.out.println("\n\t\t"+exit);
 
-        return answer.nextInt();
+        return checkMenuChoice(answer.nextLine());
     }
 
       /*
-        List view
+        Films list view
      */
       private final String welcomeList="FILMS LIST";
 
-    public int dispalyFilmsList(List<ObjectModel>list){
+    public int dispalyFilmsList(List<FilmsModel>list){
+        answer=new Scanner(System.in);
         System.out.println(borderLine);
         System.out.println("\n\t"+welcomeList+"\n");
         System.out.println(list);
@@ -53,7 +52,7 @@ public class View {
 
 
      /*
-        Add view
+        Add film view
      */
     private final String welcomeAdd="ADD FILM TO LIST";
     private final String titleRequest="Type in the title of film:";
@@ -61,21 +60,19 @@ public class View {
     private final String nextRequest="Do you want to save this film Y/N";
 
     public boolean dispalyAdd(){
-
+        answer=new Scanner(System.in);
         boolean ret=false;
         System.out.println(borderLine);
         System.out.println("\n\t"+welcomeAdd+"\n");
 
-            Scanner input=new Scanner(System.in);
-
             System.out.println(titleRequest);
-            this.titleOfFilm=input.nextLine();
+            this.titleOfFilm=answer.nextLine();
 
             System.out.println("\n"+yearRequest);
-            this.yearOfFilm=input.nextLine();
+            this.yearOfFilm=answer.nextLine();
 
             System.out.println("\n"+nextRequest);
-            String yesNo=input.next();
+            String yesNo=answer.next();
 
                 if(yesNo.equalsIgnoreCase("y")){
                     ret=true;
@@ -101,33 +98,24 @@ public class View {
         this.yearOfFilm=null;
     }
 
-
-
-
-
-
-
-
-
-    /*
-        Edit view
-    */
-    private final String welcomeEdit="EDIT FILM";
-    public void dispalyEdit(){
-        System.out.println(borderLine);
-        System.out.println("\n\t"+welcomeEdit+"\n");
-
-        System.out.println("\t"+backTitle+"\n");
+    public void wrongAnswerAgain(){
+        System.out.println("\tTry again!");
+        answer=new Scanner(System.in);
+        checkMenuChoice(answer.nextLine());
     }
 
-    /*
-     Delete view
-    */
-    private final String welcomeDelete="DELETE FILM";
-    public void dispalyDelete(){
-        System.out.println(borderLine);
-        System.out.println("\n\t"+welcomeDelete+"\n");
-
-        System.out.println("\t"+backTitle+"\n");
+    public int checkMenuChoice(String input){
+        try {
+            int number = Integer.valueOf(input);
+            if (number == 1 || number == 2 || number == 0) {
+                ret = Integer.valueOf(number);
+            }
+            else{
+                wrongAnswerAgain();
+            }
+        }catch(Exception e){
+            wrongAnswerAgain();
+        }
+        return ret;
     }
 }
