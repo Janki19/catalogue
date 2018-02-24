@@ -2,11 +2,11 @@ package pl.kubie.catalogue;
 
 import java.sql.SQLException;
 
-public class Controller {
+class Controller {
 
     private FilmsModel model;
-    private View view;
-    private DAO dao;
+    private  View view;
+    private  DAO dao;
 
     public Controller(View view,DAO dao) {
         this.dao=dao;

@@ -1,6 +1,6 @@
 package pl.kubie.catalogue;
 
-public class FilmsModel {
+class FilmsModel {
     private int id;
     private String title;
     private String year;

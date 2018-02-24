@@ -3,7 +3,7 @@ package pl.kubie.catalogue;
 import java.util.List;
 import java.util.Scanner;
 
-public class View {
+class View {
 
     private Scanner answer;
     private final String backTitle="9. Back to main menu";
@@ -11,6 +11,7 @@ public class View {
     private String titleOfFilm;
     private String yearOfFilm;
     private int ret=99;
+
 
     public View(){
     }
@@ -31,7 +32,7 @@ public class View {
         System.out.println("\t\t"+addFilm);
         System.out.println("\n\t\t"+exit);
 
-        return checkMenuChoice(answer.nextLine());
+        return checkMainMenuChoice(answer.nextLine());
     }
 
       /*
@@ -45,11 +46,9 @@ public class View {
         System.out.println("\n\t"+welcomeList+"\n");
         System.out.println(list);
         System.out.println("\t"+backTitle+"\n");
+
        return answer.nextInt();
     }
-
-
-
 
      /*
         Add film view
@@ -57,7 +56,7 @@ public class View {
     private final String welcomeAdd="ADD FILM TO LIST";
     private final String titleRequest="Type in the title of film:";
     private final String yearRequest="Type in a year of production:";
-    private final String nextRequest="Do you want to save this film Y/N";
+    private final String saveRequest="Do you want to save this film Y/N";
 
     public boolean dispalyAdd(){
         answer=new Scanner(System.in);
@@ -69,9 +68,9 @@ public class View {
             this.titleOfFilm=answer.nextLine();
 
             System.out.println("\n"+yearRequest);
-            this.yearOfFilm=answer.nextLine();
+            this.yearOfFilm=checkAddManuYear(answer.nextLine());
 
-            System.out.println("\n"+nextRequest);
+            System.out.println("\n"+saveRequest);
             String yesNo=answer.next();
 
                 if(yesNo.equalsIgnoreCase("y")){
@@ -98,24 +97,62 @@ public class View {
         this.yearOfFilm=null;
     }
 
-    public void wrongAnswerAgain(){
-        System.out.println("\tTry again!");
-        answer=new Scanner(System.in);
-        checkMenuChoice(answer.nextLine());
-    }
+    /*
+    Methods to check input-------
+     */
 
-    public int checkMenuChoice(String input){
+    //Check Main Menu choice
+    private int checkMainMenuChoice(String input){
         try {
             int number = Integer.valueOf(input);
             if (number == 1 || number == 2 || number == 0) {
-                ret = Integer.valueOf(number);
+                ret =number;
             }
             else{
-                wrongAnswerAgain();
+                wrongAnswerMainMenu();
             }
         }catch(Exception e){
-            wrongAnswerAgain();
+            wrongAnswerMainMenu();
         }
         return ret;
+    }
+
+    private void wrongAnswerMainMenu(){
+        System.out.println("\tTry again!");
+        answer=new Scanner(System.in);
+        checkMainMenuChoice(answer.nextLine());
+    }
+
+    //Check Add New film input
+
+    private String checkAddManuYear(String year){
+
+        String tempYear=null;
+        boolean digitProof=true;
+        boolean lengthProof=true;
+
+            if(year.length()>4){
+                lengthProof=false;
+            }
+            for (int i = 0; i < year.length(); i++) {
+                if(Character.isDigit(year.charAt(i))) {
+                }else{
+                    digitProof=false;
+                    break;
+                }
+            }
+            if(digitProof&&lengthProof){
+                tempYear=year;
+            }
+            else{
+                wrongAnswerYear();
+            }
+            return tempYear;
+    }
+
+    private void wrongAnswerYear(){
+        System.out.println("\tTry again!");
+        answer=new Scanner(System.in);
+        checkAddManuYear(answer.nextLine());
     }
 }

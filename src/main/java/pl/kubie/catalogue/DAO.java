@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DAO {
+class DAO {
     private  Connection connection=null;
     private final String url = "jdbc:mysql://localhost:3306/consolelibrary?autoReconnect=true&useSSL=false";
     private final String user = "root";
@@ -53,7 +53,7 @@ public class DAO {
      */
     public List<FilmsModel> displayAllRecords() {
             List<FilmsModel>list=new ArrayList<>();
-        Statement myStm= null;
+        Statement myStm;
         try {
             myStm = connection.createStatement();
             ResultSet resSet=myStm.executeQuery("select * from console");
@@ -77,9 +77,7 @@ public class DAO {
         String year = myRs.getString("year");
         float rating = myRs.getFloat("rating");
 
-        FilmsModel tempObject = new FilmsModel(id, title, year, rating);
-
-        return tempObject;
+        return new FilmsModel(id, title, year, rating);
     }
 
     public void closeConnetion(){
