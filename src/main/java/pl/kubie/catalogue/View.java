@@ -21,9 +21,9 @@ class View {
 
      */
     private final String welcome="MENU FILMS LIBRARY";
-    private final String filmsList="1. Show films list.";
-    private final String addFilm="2. Add new film.";
-    private final String exit="0. EXIT";
+    private final String filmsList="[1] Show films list.";
+    private final String addFilm="[2] Add new film.";
+    private final String exit="[0] EXIT";
 
     public  int displayMainMenuView(){
         answer=new Scanner(System.in);
@@ -41,13 +41,25 @@ class View {
       private final String welcomeList="FILMS LIST";
 
     public int dispalyFilmsList(List<FilmsModel>list){
-        answer=new Scanner(System.in);
+        int retanswer=0;
         System.out.println(borderLine);
         System.out.println("\n\t"+welcomeList+"\n");
         System.out.println(list);
         System.out.println("\t"+backTitle+"\n");
 
-       return answer.nextInt();
+        while(true) {
+            answer=new Scanner(System.in);
+            try {
+                int getanswer = answer.nextInt();
+                if (getanswer == 9) {
+                    retanswer = getanswer;
+                    break;
+                }else System.out.println("Try again!");
+            } catch (Exception e) {
+                System.out.println("Try again!");
+            }
+        }
+       return retanswer;
     }
 
      /*
@@ -155,4 +167,13 @@ class View {
         answer=new Scanner(System.in);
         checkAddManuYear(answer.nextLine());
     }
+
+    //Check films list input
+    private int checkAddManuYear(int number) {
+        int choice = Integer.valueOf(number);
+
+        return choice;
+    }
+
+
 }

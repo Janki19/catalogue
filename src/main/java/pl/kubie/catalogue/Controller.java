@@ -8,6 +8,8 @@ class Controller {
     private  View view;
     private  DAO dao;
 
+    public Controller(){}
+
     public Controller(View view,DAO dao) {
         this.dao=dao;
         this.view = view;
@@ -16,24 +18,22 @@ class Controller {
 
     public void displayMainMenu(){
         int menuAnswer=view.displayMainMenuView();
-        switchViews(menuAnswer);
+        switchMainMenu(menuAnswer);
     }
 
     public void displayFilmsList(){
         int menuAnswer=view.dispalyFilmsList(dao.displayAllRecords());
-        switchViews(menuAnswer);
+        switchFilmsList(menuAnswer);
     }
 
     public void displayAddFilm(){
-
         boolean saveAnswer=view.dispalyAdd();
-
         if(saveAnswer){
             saveFilm();
-            switchViews(9);
+            switchAddFilm(9);
         }else{
             view.clearTitleYear();
-            switchViews(9);
+            switchAddFilm(9);
         }
     }
 
@@ -49,19 +49,41 @@ class Controller {
         }
     }
 
-    public void switchViews(int number){
+    /*
+        Method to handle the selection in Main Menu
+     */
+    public void switchMainMenu(int number){
         switch(number){
             case 1:displayFilmsList();
                 break;
             case 2:displayAddFilm();
                 break;
-            case 9:displayMainMenu();
-                break;
             case 0: dao.closeConnetion();
-                    System.exit(0);
+                System.exit(0);
                 break;
         }
     }
 
+    /*
+    Method to handle the selection in Films List
+    */
+    public void switchFilmsList(int number){
+        switch(number) {
+            case 9:
+                displayMainMenu();
+                break;
+        }
+    }
+
+    /*
+    Method to handle the selection in Add Film
+    */
+    public void switchAddFilm(int number){
+        switch(number) {
+            case 9:
+                displayMainMenu();
+                break;
+        }
+    }
 
 }
