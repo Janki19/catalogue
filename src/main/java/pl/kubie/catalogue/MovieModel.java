@@ -1,15 +1,15 @@
 package pl.kubie.catalogue;
 
-class FilmsModel {
+class MovieModel {
     private int id;
     private String title;
     private String year;
     private float rating;
 
-    public FilmsModel() {
+    public MovieModel() {
     }
 
-    public FilmsModel(int id, String title, String year, float rating) {
+    public MovieModel(int id, String title, String year, float rating) {
 
         this.id = id;
         this.title = title;

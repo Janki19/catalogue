@@ -6,173 +6,180 @@ import java.util.Scanner;
 class View {
 
     private Scanner answer;
-    private final String backTitle="9. Back to main menu";
-    private final String borderLine="--------------------------------------------------------------------------";
-    private String titleOfFilm;
-    private String yearOfFilm;
-    private int ret=99;
+    private final String backTitle = "[9] Back to main menu";
+    private final String borderLine = "--------------------------------------------------------------------------";
+    private String titleOfMovie;
+    private String yearOfMovie;
 
-
-    public View(){
+    public View() {
     }
 
     /*
         Main menu view
 
      */
-    private final String welcome="MENU FILMS LIBRARY";
-    private final String filmsList="[1] Show films list.";
-    private final String addFilm="[2] Add new film.";
-    private final String exit="[0] EXIT";
+    private final String welcome = "MENU MOVIES LIBRARY";
+    private final String moviesList = "[1] Show movies list.";
+    private final String addFilm = "[2] Add new movies.";
+    private final String exit = "[0] EXIT";
 
-    public  int displayMainMenuView(){
-        answer=new Scanner(System.in);
-        System.out.println("\n\t"+welcome+"\n");
-        System.out.println("\t\t"+filmsList);
-        System.out.println("\t\t"+addFilm);
-        System.out.println("\n\t\t"+exit);
+    public int displayMainMenuView() {
+        System.out.println("\n\t" + welcome + "\n");
+        System.out.println("\t\t" + moviesList);
+        System.out.println("\t\t" + addFilm);
+        System.out.println("\n\t\t" + exit);
 
-        return checkMainMenuChoice(answer.nextLine());
+        return mainMenuChoice();
     }
 
-      /*
-        Films list view
-     */
-      private final String welcomeList="FILMS LIST";
+    /*
+      Movies list view
+   */
+    private final String welcomeList = "MOVIES LIST";
 
-    public int dispalyFilmsList(List<FilmsModel>list){
-        int retanswer=0;
+    public int dispalyMoviesList(List<MovieModel> list) {
         System.out.println(borderLine);
-        System.out.println("\n\t"+welcomeList+"\n");
+        System.out.println("\n\t" + welcomeList + "\n");
         System.out.println(list);
-        System.out.println("\t"+backTitle+"\n");
+        System.out.println("\t" + backTitle + "\n");
 
-        while(true) {
-            answer=new Scanner(System.in);
-            try {
-                int getanswer = answer.nextInt();
-                if (getanswer == 9) {
-                    retanswer = getanswer;
-                    break;
-                }else System.out.println("Try again!");
-            } catch (Exception e) {
-                System.out.println("Try again!");
-            }
-        }
-       return retanswer;
+        return checkMoviesListInput();
     }
 
-     /*
-        Add film view
-     */
-    private final String welcomeAdd="ADD FILM TO LIST";
-    private final String titleRequest="Type in the title of film:";
-    private final String yearRequest="Type in a year of production:";
-    private final String saveRequest="Do you want to save this film Y/N";
+    /*
+       Add movie view
+    */
+    private final String welcomeAdd = "ADD MOVIE TO LIST";
+    private final String titleRequest = "Type in the title of movie:";
+    private final String yearRequest = "Type in a year of production:";
+    private final String saveRequest = "Do you want to save this movie Y/N";
 
-    public boolean dispalyAdd(){
-        answer=new Scanner(System.in);
-        boolean ret=false;
+    public boolean dispalyAdd() {
+        answer = new Scanner(System.in);
         System.out.println(borderLine);
-        System.out.println("\n\t"+welcomeAdd+"\n");
+        System.out.println("\n\t" + welcomeAdd + "\n");
 
-            System.out.println(titleRequest);
-            this.titleOfFilm=answer.nextLine();
+        System.out.println(titleRequest);
+        this.titleOfMovie = answer.nextLine();
 
-            System.out.println("\n"+yearRequest);
-            this.yearOfFilm=checkAddManuYear(answer.nextLine());
+        System.out.println("\n" + yearRequest);
+        this.yearOfMovie = yearInput();
 
-            System.out.println("\n"+saveRequest);
-            String yesNo=answer.next();
+        System.out.println("\n" + saveRequest);
 
-                if(yesNo.equalsIgnoreCase("y")){
-                    ret=true;
-                }
-                else if(yesNo.equalsIgnoreCase("n")){
-                    System.out.println("No");
-                }
-                else{
-                    System.out.println("Wrong answer!");
-                }
-                return ret;
-    }
-
-    public String getTitleOfFilm(){
-        return titleOfFilm;
-    }
-
-    public String getYearOfFilm(){
-        return yearOfFilm;
-    }
-    public void clearTitleYear(){
-        this.titleOfFilm=null;
-        this.yearOfFilm=null;
+        return shouldSave();
     }
 
     /*
     Methods to check input-------
-     */
+    */
 
     //Check Main Menu choice
-    private int checkMainMenuChoice(String input){
-        try {
-            int number = Integer.valueOf(input);
-            if (number == 1 || number == 2 || number == 0) {
-                ret =number;
-            }
-            else{
-                wrongAnswerMainMenu();
-            }
-        }catch(Exception e){
-            wrongAnswerMainMenu();
-        }
-        return ret;
-    }
-
-    private void wrongAnswerMainMenu(){
-        System.out.println("\tTry again!");
-        answer=new Scanner(System.in);
-        checkMainMenuChoice(answer.nextLine());
-    }
-
-    //Check Add New film input
-
-    private String checkAddManuYear(String year){
-
-        String tempYear=null;
-        boolean digitProof=true;
-        boolean lengthProof=true;
-
-            if(year.length()>4){
-                lengthProof=false;
-            }
-            for (int i = 0; i < year.length(); i++) {
-                if(Character.isDigit(year.charAt(i))) {
-                }else{
-                    digitProof=false;
+    private int mainMenuChoice() {
+        int retchoise;
+        while (true) {
+            answer = new Scanner(System.in);
+            try {
+                int tempnumber = answer.nextInt();
+                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 0) {
+                    retchoise = tempnumber;
                     break;
+                } else {
+                    System.out.println("Try again!");
                 }
+            } catch (Exception e) {
+                System.out.println("Try again!");
             }
-            if(digitProof&&lengthProof){
-                tempYear=year;
-            }
-            else{
-                wrongAnswerYear();
-            }
-            return tempYear;
+        }
+        return retchoise;
     }
 
-    private void wrongAnswerYear(){
-        System.out.println("\tTry again!");
-        answer=new Scanner(System.in);
-        checkAddManuYear(answer.nextLine());
+    //Check movies list input
+    private int checkMoviesListInput() {
+        int retAnswer = 0;
+        while (true) {
+            answer = new Scanner(System.in);
+            try {
+                if (answer.nextInt() == 9) {
+                    retAnswer = 9;
+                    break;
+                } else System.out.println("Try again!");
+            } catch (Exception e) {
+                System.out.println("Try again!");
+            }
+        }
+        return retAnswer;
     }
 
-    //Check films list input
-    private int checkAddManuYear(int number) {
-        int choice = Integer.valueOf(number);
+    //Check Add New Movies input
+    private String yearInput() {
+        int tempYear;
+        while (true) {
+            answer = new Scanner(System.in);
+            try {
+                int imputYear = answer.nextInt();
+                if (imputYear < 2020) {
+                    tempYear = imputYear;
+                    break;
+                } else {
+                    System.out.println("Try again!");
+                }
+            } catch (Exception e) {
+                System.out.println("Try again!");
+            }
+        }
+        return String.valueOf(tempYear);
+    }
 
-        return choice;
+    // Checking the answer and return true if record need to be saved.
+
+    private boolean shouldSave() {
+        boolean temReturn = false;
+        while (true) {
+            answer = new Scanner(System.in);
+            String yesNo = answer.nextLine();
+            if (yesNo.equalsIgnoreCase("y")) {
+                temReturn = true;
+                break;
+            } else if (yesNo.equalsIgnoreCase("n")) {
+                break;
+            } else {
+                System.out.println("Wrong answer!");
+            }
+        }
+        return temReturn;
+    }
+
+    public boolean shouldAddNext() {
+        System.out.println("Do you want to add another movie?? Y/N ");
+        boolean temReturn = false;
+        while (true) {
+            answer = new Scanner(System.in);
+            String yesNo = answer.nextLine();
+            if (yesNo.equalsIgnoreCase("y")) {
+                temReturn = true;
+                break;
+            } else if (yesNo.equalsIgnoreCase("n")) {
+                break;
+            } else {
+                System.out.println("Wrong answer!");
+            }
+        }
+        return temReturn;
+    }
+
+    // Getters and cleaner to Add Film temporary variables.
+    public String getTitleOfMovie() {
+        return titleOfMovie;
+    }
+
+    public String getYearOfMovie() {
+        return yearOfMovie;
+    }
+
+    public void clearTitleYear() {
+        this.titleOfMovie = null;
+        this.yearOfMovie = null;
     }
 
 
