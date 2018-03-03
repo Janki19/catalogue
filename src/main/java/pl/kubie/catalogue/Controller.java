@@ -24,37 +24,25 @@ class Controller {
         switchMoviesList(menuAnswer);
     }
 
-    public void displayAddMovie() {
-        while (true) {
-            if (view.dispalyAdd()) {
-                view.clearTitleYear();
-                if (view.shouldAddNext()) {
-                    view.dispalyAdd();
-                } else {
-                    switchAddMovie(9);
-                    break;
-                }
-            } else {
-                view.clearTitleYear();
-                if (view.shouldAddNext()) {
-                    view.dispalyAdd();
-                } else {
-                    switchAddMovie(9);
-                    break;
-                }
-            }
-        }
-    }
-
     public void displayAddFilm() {
         boolean saveAnswer = view.dispalyAdd();
         if (saveAnswer) {
             saveMovie();
             view.clearTitleYear();
-            switchAddMovie(9);
+            backToMainMenu();
         } else {
             view.clearTitleYear();
-            switchAddMovie(9);
+            backToMainMenu();
+        }
+    }
+
+    public void displayRemoveMovie() {
+        int id = view.displayRemove();
+        if (view.displayRemoveConfirm(dao.displayById(id))) {
+            dao.deleteRecord1(id);
+            backToMainMenu();
+        } else {
+            backToMainMenu();
         }
     }
 
@@ -80,7 +68,9 @@ class Controller {
                 break;
             case 2:
                 displayAddFilm();
-                // displayAddMovie();
+                break;
+            case 3:
+                displayRemoveMovie();
                 break;
             case 0:
                 dao.closeConnetion();
@@ -103,12 +93,8 @@ class Controller {
     /*
     Method to handle the selection in Add Movie
     */
-    public void switchAddMovie(int number) {
-        switch (number) {
-            case 9:
-                displayMainMenu();
-                break;
-        }
+    public void backToMainMenu() {
+        displayMainMenu();
     }
 
 }

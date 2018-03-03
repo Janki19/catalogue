@@ -39,13 +39,16 @@ class DAO {
     /*
     Delete record from database by using the given "id" of record.
      */
-    public void deleteRecord(int id) throws SQLException {
-        String delete = "delete from console where id=?";
-        PreparedStatement myPrStm = connection.prepareStatement(delete);
-        myPrStm.setInt(1, id);
-        myPrStm.executeUpdate();
-        myPrStm.close();
-        System.out.println("Record deleted.");
+    public void deleteRecord1(int id){
+        String delete = "delete from console where id="+id;
+        try {
+            Statement myStm=connection.createStatement();
+            myStm.execute(delete);
+            myStm.close();
+            System.out.println("Record deleted.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -57,7 +60,6 @@ class DAO {
         try {
             myStm = connection.createStatement();
             ResultSet resSet = myStm.executeQuery("select * from console");
-
             while (resSet.next()) {
                 MovieModel tempObject = convertRowToObjectModel(resSet);
                 list.add(tempObject);
@@ -66,8 +68,22 @@ class DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return list;
+    }
+
+    public MovieModel displayById(int id){
+        MovieModel movie=new MovieModel();
+        String selectId="select * from console where id="+id;
+        try {
+            Statement myStm=connection.createStatement();
+            ResultSet resSet=myStm.executeQuery(selectId);
+            while (resSet.next()) {
+                movie=convertRowToObjectModel(resSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return movie;
     }
 
     private MovieModel convertRowToObjectModel(ResultSet myRs) throws SQLException {

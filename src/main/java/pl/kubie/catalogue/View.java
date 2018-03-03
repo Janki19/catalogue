@@ -19,14 +19,16 @@ class View {
 
      */
     private final String welcome = "MENU MOVIES LIBRARY";
-    private final String moviesList = "[1] Show movies list.";
-    private final String addFilm = "[2] Add new movies.";
+    private final String moviesList = "[1] Show movies list";
+    private final String addMovie = "[2] Add new movie";
+    private final String removeMovie = "[3] Remove movie";
     private final String exit = "[0] EXIT";
 
     public int displayMainMenuView() {
         System.out.println("\n\t" + welcome + "\n");
         System.out.println("\t\t" + moviesList);
-        System.out.println("\t\t" + addFilm);
+        System.out.println("\t\t" + addMovie);
+        System.out.println("\t\t" + removeMovie);
         System.out.println("\n\t\t" + exit);
 
         return mainMenuChoice();
@@ -67,7 +69,29 @@ class View {
 
         System.out.println("\n" + saveRequest);
 
-        return shouldSave();
+        return selectYesNo();
+    }
+
+    /*
+    Remove movie view
+     */
+    private final String welcomeRemove = "REMOVE MOVIE FROM LIST";
+    private final String removeQuestion = "Type in number of the movie to be removed.";
+    private final String removeConfirm = "Are you sure you want to delete this movie? Y/N";
+
+    public int displayRemove() {
+        answer = new Scanner(System.in);
+        System.out.println(borderLine);
+        System.out.println("\n\t" + welcomeRemove + "\n");
+        System.out.println(removeQuestion);
+        return answer.nextInt();
+    }
+
+    public boolean displayRemoveConfirm(MovieModel movie) {
+        answer = new Scanner(System.in);
+        System.out.println(movie);
+        System.out.println(removeConfirm);
+        return selectYesNo();
     }
 
     /*
@@ -81,7 +105,7 @@ class View {
             answer = new Scanner(System.in);
             try {
                 int tempnumber = answer.nextInt();
-                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 0) {
+                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 3 || tempnumber == 0) {
                     retchoise = tempnumber;
                     break;
                 } else {
@@ -111,7 +135,7 @@ class View {
         return retAnswer;
     }
 
-    //Check Add New Movies input
+    //Checking Add New Movies input
     private String yearInput() {
         int tempYear;
         while (true) {
@@ -133,25 +157,7 @@ class View {
 
     // Checking the answer and return true if record need to be saved.
 
-    private boolean shouldSave() {
-        boolean temReturn = false;
-        while (true) {
-            answer = new Scanner(System.in);
-            String yesNo = answer.nextLine();
-            if (yesNo.equalsIgnoreCase("y")) {
-                temReturn = true;
-                break;
-            } else if (yesNo.equalsIgnoreCase("n")) {
-                break;
-            } else {
-                System.out.println("Wrong answer!");
-            }
-        }
-        return temReturn;
-    }
-
-    public boolean shouldAddNext() {
-        System.out.println("Do you want to add another movie?? Y/N ");
+    private boolean selectYesNo() {
         boolean temReturn = false;
         while (true) {
             answer = new Scanner(System.in);
