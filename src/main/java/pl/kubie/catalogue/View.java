@@ -22,6 +22,7 @@ class View {
     private final String moviesList = "[1] Show movies list";
     private final String addMovie = "[2] Add new movie";
     private final String removeMovie = "[3] Remove movie";
+    private final String movieRatings = "[4] Movies ratings";
     private final String exit = "[0] EXIT";
 
     public int displayMainMenuView() {
@@ -29,6 +30,7 @@ class View {
         System.out.println("\t\t" + moviesList);
         System.out.println("\t\t" + addMovie);
         System.out.println("\t\t" + removeMovie);
+        System.out.println("\t\t" + movieRatings);
         System.out.println("\n\t\t" + exit);
 
         return mainMenuChoice();
@@ -84,7 +86,7 @@ class View {
         System.out.println(borderLine);
         System.out.println("\n\t" + welcomeRemove + "\n");
         System.out.println(removeQuestion);
-        return answer.nextInt();
+        return ifInt();
     }
 
     public boolean displayRemoveConfirm(MovieModel movie) {
@@ -95,18 +97,39 @@ class View {
     }
 
     /*
-    Methods to check input-------
+    Display movie rating
+    */
+    private final String ratingsWelcome = "MOVIES RATING";
+    private final String movieNrQuestipn = "Enter the number of the movie you want to rate.";
+
+    public int displayChoiseToRatings() {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + ratingsWelcome + "\n");
+        System.out.println(movieNrQuestipn);
+        return ifInt();
+    }
+
+    private final String ratings = "Movie ratings from 1 to 7.";
+    public int displayRatingMovie(MovieModel movie) {
+        answer = new Scanner(System.in);
+        System.out.println(movie);
+        System.out.println(ratings);
+        return checkRatings();
+    }
+
+    /*
+    Methods to check inputs-------
     */
 
     //Check Main Menu choice
     private int mainMenuChoice() {
-        int retchoise;
+        int retChoise;
         while (true) {
             answer = new Scanner(System.in);
             try {
                 int tempnumber = answer.nextInt();
-                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 3 || tempnumber == 0) {
-                    retchoise = tempnumber;
+                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 3 || tempnumber == 4|| tempnumber == 0) {
+                    retChoise = tempnumber;
                     break;
                 } else {
                     System.out.println("Try again!");
@@ -115,7 +138,7 @@ class View {
                 System.out.println("Try again!");
             }
         }
-        return retchoise;
+        return retChoise;
     }
 
     //Check movies list input
@@ -173,6 +196,40 @@ class View {
         }
         return temReturn;
     }
+
+    //Check if type in int
+    private int ifInt() {
+        int number;
+        while (true) {
+            answer = new Scanner(System.in);
+            try {
+                number = answer.nextInt();
+                break;
+            } catch (Exception e) {
+                System.out.println("Try again!");
+            }
+        }
+        return number;
+    }
+
+    //Check ratings between 1 to 7
+    private int checkRatings() {
+        int ratingAnswer = 0;
+        while (true) {
+            answer = new Scanner(System.in);
+            try {
+                int ratingsNumber=answer.nextInt();
+                if (ratingsNumber>0&&ratingsNumber<=7) {
+                    ratingAnswer=ratingsNumber;
+                    break;
+                } else System.out.println("Try again!");
+            } catch (Exception e) {
+                System.out.println("Try again!");
+            }
+        }
+        return ratingAnswer;
+    }
+
 
     // Getters and cleaner to Add Film temporary variables.
     public String getTitleOfMovie() {

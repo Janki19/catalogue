@@ -71,6 +71,7 @@ class DAO {
         return list;
     }
 
+    //Displays a movie found using id
     public MovieModel displayById(int id){
         MovieModel movie=new MovieModel();
         String selectId="select * from console where id="+id;
@@ -86,16 +87,35 @@ class DAO {
         return movie;
     }
 
+    //Updating rating of movie and number of votes
+    public void updateRating(int id,float rating,int votes){
+        String update = "update console set rating=?,votes=? where id=?";
+        try {
+            PreparedStatement prState=connection.prepareStatement(update);
+            prState.setFloat(1,rating);
+            prState.setInt(2,votes);
+            prState.setInt(3,id);
+            prState.executeUpdate();
+            prState.close();
+            System.out.println("Rating updated.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //Convert row to object model
     private MovieModel convertRowToObjectModel(ResultSet myRs) throws SQLException {
 
         int id = myRs.getInt("id");
         String title = myRs.getString("title");
         String year = myRs.getString("year");
         float rating = myRs.getFloat("rating");
+        int votes=myRs.getInt("votes");
 
-        return new MovieModel(id, title, year, rating);
+        return new MovieModel(id, title, year, rating,votes);
     }
 
+    //Closing the connection with database
     public void closeConnetion() {
         try {
             connection.close();

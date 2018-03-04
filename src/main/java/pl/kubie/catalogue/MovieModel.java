@@ -5,16 +5,22 @@ class MovieModel {
     private String title;
     private String year;
     private float rating;
+    private int votes;
 
     public MovieModel() {
     }
 
-    public MovieModel(int id, String title, String year, float rating) {
+    public MovieModel(int id, String title, String year, float rating,int votes) {
 
         this.id = id;
         this.title = title;
         this.year = year;
         this.rating = rating;
+        this.votes=votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
     }
 
     public void setId(int id) {
@@ -33,6 +39,10 @@ class MovieModel {
         this.rating = rating;
     }
 
+    public int getVotes(){
+        return votes;
+    }
+
     public int getId() {
 
         return id;
@@ -48,6 +58,12 @@ class MovieModel {
 
     public float getRating() {
         return rating;
+    }
+
+    //Calculates the average rating of the movie.
+    public void countRating(int addRating){
+        this.votes++;
+        this.rating=(this.rating+addRating)/votes;
     }
 
     public String toString() {

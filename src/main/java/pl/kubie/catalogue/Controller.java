@@ -46,6 +46,16 @@ class Controller {
         }
     }
 
+    public void displayMoviesRating(){
+        model=new MovieModel();
+        int id=view.displayChoiseToRatings();
+        model=dao.displayById(id);
+        int rating=view.displayRatingMovie(model);
+        model.countRating(rating);
+        dao.updateRating(model.getId(),model.getRating(),model.getVotes());
+        backToMainMenu();
+    }
+
     private void saveMovie() {
         try {
             model = new MovieModel();
@@ -71,6 +81,9 @@ class Controller {
                 break;
             case 3:
                 displayRemoveMovie();
+                break;
+            case 4:
+                displayMoviesRating();
                 break;
             case 0:
                 dao.closeConnetion();
