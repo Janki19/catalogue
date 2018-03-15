@@ -1,6 +1,15 @@
 package pl.kubie.catalogue;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="console")
 class MovieModel {
+    @Id
+    @GeneratedValue
     private int id;
     private String title;
     private String year;
