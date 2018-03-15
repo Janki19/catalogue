@@ -7,9 +7,10 @@ class Controller {
     private MovieModel model;
     private View view;
     private DAO dao;
+    private MovieDao mDao;
 
-    public Controller(View view, DAO dao) {
-        this.dao = dao;
+    public Controller(View view, MovieDao mDao) {
+        this.mDao = mDao;
         this.view = view;
         displayMainMenu();
     }
@@ -57,15 +58,16 @@ class Controller {
     }
 
     private void saveMovie() {
-        try {
+ //       try {
             model = new MovieModel();
             model.setTitle(view.getTitleOfMovie());
             model.setYear(view.getYearOfMovie());
-            dao.save(model);
+           // dao.save(model);
+            mDao.save(model);
             view.clearTitleYear();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /*
