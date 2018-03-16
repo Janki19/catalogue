@@ -1,9 +1,9 @@
 package pl.kubie.catalogue;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 
 public class MovieDao {
     private EntityManagerFactory entityManagerFactory;
