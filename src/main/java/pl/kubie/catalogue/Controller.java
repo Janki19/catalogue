@@ -1,10 +1,8 @@
 package pl.kubie.catalogue;
 
-import java.sql.SQLException;
-
 class Controller {
 
-    private MovieModel model;
+    private Movie model;
     private View view;
     private DAO dao;
     private MovieDao mDao;
@@ -21,7 +19,7 @@ class Controller {
     }
 
     public void displayMoviesList() {
-        int menuAnswer = view.dispalyMoviesList(dao.displayAllRecords());
+        int menuAnswer = view.dispalyMoviesList(mDao.findAll());
         switchMoviesList(menuAnswer);
     }
 
@@ -39,35 +37,41 @@ class Controller {
 
     public void displayRemoveMovie() {
         int id = view.displayRemove();
-        if (view.displayRemoveConfirm(dao.displayById(id))) {
-            dao.deleteRecord1(id);
+        if (view.displayRemoveConfirm(mDao.findById(id))) {
+            mDao.deleteMovie(id);
             backToMainMenu();
         } else {
             backToMainMenu();
         }
     }
 
-    public void displayMoviesRating(){
-        model=new MovieModel();
-        int id=view.displayChoiseToRatings();
-        model=dao.displayById(id);
-        int rating=view.displayRatingMovie(model);
+    public void displayMoviesRating() {
+        model = new Movie();
+        int id = view.displayChoiseToRatings();
+        model = dao.displayById(id);
+        int rating = view.displayRatingMovie(model);
         model.countRating(rating);
-        dao.updateRating(model.getId(),model.getRating(),model.getVotes());
+        dao.updateRating(model.getId(), model.getRating(), model.getVotes());
+        backToMainMenu();
+    }
+
+    public void displayMoviesRatings() {
+        model = new Movie();
+        int id = view.displayChoiseToRatings();
+        model = mDao.findById(id);
+        int rating = view.displayRatingMovie(model);
+        model.countRating(rating);
+        mDao.addMovie(model);
         backToMainMenu();
     }
 
     private void saveMovie() {
- //       try {
-            model = new MovieModel();
-            model.setTitle(view.getTitleOfMovie());
-            model.setYear(view.getYearOfMovie());
-           // dao.save(model);
-            mDao.save(model);
-            view.clearTitleYear();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        model = new Movie();
+        model.setTitle(view.getTitleOfMovie());
+        model.setYear(view.getYearOfMovie());
+        mDao.addMovie(model);
+        view.clearTitleYear();
+
     }
 
     /*
@@ -85,10 +89,10 @@ class Controller {
                 displayRemoveMovie();
                 break;
             case 4:
-                displayMoviesRating();
+                displayMoviesRatings();
                 break;
             case 0:
-                dao.closeConnetion();
+                mDao.closeConnection();
                 System.exit(0);
                 break;
         }

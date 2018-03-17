@@ -24,7 +24,7 @@ class DAO {
     /*
     Insert new record to database by two parameters "title" and "year".
      */
-    public void save(MovieModel model) throws SQLException {
+    public void save(Movie model) throws SQLException {
         String insert = "insert into console"
                 + "(title,year)"
                 + "values(?,?)";
@@ -54,14 +54,14 @@ class DAO {
     /*
     Display all records from data base.
      */
-    public List<MovieModel> displayAllRecords() {
-        List<MovieModel> list = new ArrayList<>();
+    public List<Movie> displayAllRecords() {
+        List<Movie> list = new ArrayList<>();
         Statement myStm;
         try {
             myStm = connection.createStatement();
             ResultSet resSet = myStm.executeQuery("select * from console");
             while (resSet.next()) {
-                MovieModel tempObject = convertRowToObjectModel(resSet);
+                Movie tempObject = convertRowToObjectModel(resSet);
                 list.add(tempObject);
             }
             resSet.close();
@@ -72,8 +72,8 @@ class DAO {
     }
 
     //Displays a movie found using id
-    public MovieModel displayById(int id){
-        MovieModel movie=new MovieModel();
+    public Movie displayById(int id){
+        Movie movie=new Movie();
         String selectId="select * from console where id="+id;
         try {
             Statement myStm=connection.createStatement();
@@ -104,7 +104,7 @@ class DAO {
     }
 
     //Convert row to object model
-    private MovieModel convertRowToObjectModel(ResultSet myRs) throws SQLException {
+    private Movie convertRowToObjectModel(ResultSet myRs) throws SQLException {
 
         int id = myRs.getInt("id");
         String title = myRs.getString("title");
@@ -112,7 +112,7 @@ class DAO {
         float rating = myRs.getFloat("rating");
         int votes=myRs.getInt("votes");
 
-        return new MovieModel(id, title, year, rating,votes);
+        return new Movie(id, title, year, rating,votes);
     }
 
     //Closing the connection with database

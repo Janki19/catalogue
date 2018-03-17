@@ -41,7 +41,7 @@ class View {
    */
     private final String welcomeList = "MOVIES LIST";
 
-    public int dispalyMoviesList(List<MovieModel> list) {
+    public int dispalyMoviesList(List<Movie> list) {
         System.out.println(borderLine);
         System.out.println("\n\t" + welcomeList + "\n");
         System.out.println(list);
@@ -56,7 +56,7 @@ class View {
     private final String welcomeAdd = "ADD MOVIE TO LIST";
     private final String titleRequest = "Type in the title of movie:";
     private final String yearRequest = "Type in a year of production:";
-    private final String saveRequest = "Do you want to save this movie Y/N";
+    private final String saveRequest = "Do you want to addMovie this movie Y/N";
 
     public boolean dispalyAdd() {
         answer = new Scanner(System.in);
@@ -89,7 +89,7 @@ class View {
         return ifInt();
     }
 
-    public boolean displayRemoveConfirm(MovieModel movie) {
+    public boolean displayRemoveConfirm(Movie movie) {
         answer = new Scanner(System.in);
         System.out.println(movie);
         System.out.println(removeConfirm);
@@ -110,7 +110,7 @@ class View {
     }
 
     private final String ratings = "Movie ratings from 1 to 7.";
-    public int displayRatingMovie(MovieModel movie) {
+    public int displayRatingMovie(Movie movie) {
         answer = new Scanner(System.in);
         System.out.println(movie);
         System.out.println(ratings);

@@ -1,13 +1,9 @@
 package pl.kubie.catalogue;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="console")
-class MovieModel {
+class Movie {
     @Id
     @GeneratedValue
     private int id;
@@ -16,10 +12,10 @@ class MovieModel {
     private float rating;
     private int votes;
 
-    public MovieModel() {
+    public Movie() {
     }
 
-    public MovieModel(int id, String title, String year, float rating,int votes) {
+    public Movie(int id, String title, String year, float rating, int votes) {
 
         this.id = id;
         this.title = title;
@@ -28,48 +24,48 @@ class MovieModel {
         this.votes=votes;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public int getVotes(){
-        return votes;
-    }
-
-    public int getId() {
-
-        return id;
-    }
-
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getYear() {
         return year;
     }
 
+    public void setYear(String year) {
+        this.year = year;
+    }
+
     public float getRating() {
         return rating;
     }
 
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
+    }
+
     //Calculates the average rating of the movie.
+    // Need to be fixed
     public void countRating(int addRating){
         this.votes++;
         this.rating=(this.rating+addRating)/votes;
