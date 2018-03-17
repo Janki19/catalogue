@@ -21,7 +21,7 @@ class Movie {
         this.title = title;
         this.year = year;
         this.rating = rating;
-        this.votes=votes;
+        this.votes = votes;
     }
 
     public int getId() {
@@ -66,9 +66,9 @@ class Movie {
 
     //Calculates the average rating of the movie.
     // Need to be fixed
-    public void countRating(int addRating){
+    public void countRating(int addRating) {
         this.votes++;
-        this.rating=(this.rating+addRating)/votes;
+        this.rating = (this.rating + addRating) / votes;
     }
 
     public String toString() {

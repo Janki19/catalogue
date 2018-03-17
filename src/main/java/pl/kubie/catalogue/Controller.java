@@ -4,7 +4,6 @@ class Controller {
 
     private Movie model;
     private View view;
-    private DAO dao;
     private MovieDao mDao;
 
     public Controller(View view, MovieDao mDao) {
@@ -45,16 +44,6 @@ class Controller {
         }
     }
 
-    public void displayMoviesRating() {
-        model = new Movie();
-        int id = view.displayChoiseToRatings();
-        model = dao.displayById(id);
-        int rating = view.displayRatingMovie(model);
-        model.countRating(rating);
-        dao.updateRating(model.getId(), model.getRating(), model.getVotes());
-        backToMainMenu();
-    }
-
     public void displayMoviesRatings() {
         model = new Movie();
         int id = view.displayChoiseToRatings();
@@ -71,7 +60,6 @@ class Controller {
         model.setYear(view.getYearOfMovie());
         mDao.addMovie(model);
         view.clearTitleYear();
-
     }
 
     /*

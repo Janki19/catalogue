@@ -1,6 +1,5 @@
 package pl.kubie.catalogue;
 
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class MovieDao {
         return query.getResultList();
     }
 
-    public void deleteMovie(int id){
+    public void deleteMovie(int id) {
         entityManager.getTransaction().begin();
         entityManager.remove(findById(id));
         entityManager.getTransaction().commit();
@@ -42,8 +41,8 @@ public class MovieDao {
         return movie;
     }
 
-    public void updateRating(int id,float rating,int votes){
-        Query query=entityManager.createQuery("UPDATE Movie SET");
+    public void updateRating(int id, float rating, int votes) {
+        Query query = entityManager.createQuery("UPDATE Movie SET");
     }
 
     public void closeConnection() {
