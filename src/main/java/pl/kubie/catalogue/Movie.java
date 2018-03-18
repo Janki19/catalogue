@@ -1,6 +1,8 @@
 package pl.kubie.catalogue;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 class Movie {
@@ -11,6 +13,8 @@ class Movie {
     private String year;
     private float rating;
     private int votes;
+    @Column(name = "date")
+    private LocalDate dateNow=LocalDate.now();
 
     public Movie() {
     }
@@ -62,6 +66,14 @@ class Movie {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public LocalDate getDateNow() {
+        return dateNow;
+    }
+
+    public void setDateNow(LocalDate dateNow) {
+        this.dateNow = dateNow;
     }
 
     //Calculates the average rating of the movie.

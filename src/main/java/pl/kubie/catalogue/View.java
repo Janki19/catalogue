@@ -1,5 +1,8 @@
 package pl.kubie.catalogue;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,14 +18,14 @@ class View {
     }
 
     /*
-        Main menu view
-
+        Main menu view----------------------------------------------------
      */
-    private final String welcome = "MENU MOVIES LIBRARY";
+    private final String welcome = "MOVIES LIBRARY MENU";
     private final String moviesList = "[1] Show movies list";
     private final String addMovie = "[2] Add new movie";
     private final String removeMovie = "[3] Remove movie";
     private final String movieRatings = "[4] Movies ratings";
+    private final String movieSearch = "[5] Search movie";
     private final String exit = "[0] EXIT";
 
     public int displayMainMenuView() {
@@ -31,51 +34,47 @@ class View {
         System.out.println("\t\t" + addMovie);
         System.out.println("\t\t" + removeMovie);
         System.out.println("\t\t" + movieRatings);
+        System.out.println("\t\t" + movieSearch);
         System.out.println("\n\t\t" + exit);
-
         return mainMenuChoice();
     }
 
     /*
-      Movies list view
+      Movies list view------------------------------------------------------
    */
     private final String welcomeList = "MOVIES LIST";
 
-    public int dispalyMoviesList(List<Movie> list) {
+    public int displayMoviesList(List<Movie> list) {
         System.out.println(borderLine);
         System.out.println("\n\t" + welcomeList + "\n");
         System.out.println(list);
         System.out.println("\t" + backTitle + "\n");
 
-        return checkMoviesListInput();
+        return checkIfBack();
     }
 
     /*
-       Add movie view
+       Add movie view------------------------------------------------------------
     */
     private final String welcomeAdd = "ADD MOVIE TO LIST";
     private final String titleRequest = "Type in the title of movie:";
     private final String yearRequest = "Type in a year of production:";
-    private final String saveRequest = "Do you want to addMovie this movie Y/N";
+    private final String saveRequest = "Do you want to addUpdMovie this movie Y/N";
 
     public boolean dispalyAdd() {
         answer = new Scanner(System.in);
         System.out.println(borderLine);
         System.out.println("\n\t" + welcomeAdd + "\n");
-
         System.out.println(titleRequest);
         this.titleOfMovie = answer.nextLine();
-
         System.out.println("\n" + yearRequest);
         this.yearOfMovie = yearInput();
-
         System.out.println("\n" + saveRequest);
-
         return selectYesNo();
     }
 
     /*
-    Remove movie view
+    Remove movie view-----------------------------------------------------------------------
      */
     private final String welcomeRemove = "REMOVE MOVIE FROM LIST";
     private final String removeQuestion = "Type in number of the movie to be removed.";
@@ -110,6 +109,7 @@ class View {
     }
 
     private final String ratings = "Movie ratings from 1 to 7.";
+
     public int displayRatingMovie(Movie movie) {
         answer = new Scanner(System.in);
         System.out.println(movie);
@@ -118,7 +118,61 @@ class View {
     }
 
     /*
-    Methods to check inputs-------
+    Display search
+     */
+    private final String searchWelcome = "SEARCH MOVIE";
+    private final String searchByTitle = "1. Search by title.";
+    private final String searchByRate = "2. Search by rate.";
+    private final String searchByDate = "3. Search by date.";
+
+    public int displaySearchMenu() {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + searchWelcome + "\n");
+        System.out.println("\t\t" + searchByTitle);
+        System.out.println("\t\t" + searchByRate);
+        System.out.println("\t\t" + searchByDate);
+        return searchChoice();
+    }
+
+    //Search by title
+    private final String questionTitle = "Type in title of movie.";
+
+    public String searchByTitle() {
+        System.out.println(questionTitle);
+        answer = new Scanner(System.in);
+        return answer.nextLine();
+    }
+
+    private final String founded = "Founded movies with words: ";
+
+    public int displaySearchByTitle(List<Movie> list, String title) {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + founded + "' " + title + " '");
+        System.out.println("\n" + list);
+        System.out.println("\t" + backTitle + "\n");
+        return checkIfBack();
+    }
+
+    //Search by date
+    private final String questionDate = "Type in date of add to search (yyyyMMdd).";
+
+    public LocalDate searchByDate() {
+        System.out.println(questionDate);
+        return checkIfDateIsCorrect();
+    }
+
+    private final String foundedDate = "Founded movies added on: ";
+
+    public int displaySearchByDate(List<Movie> list, LocalDate date) {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + foundedDate + "' " + date + " '");
+        System.out.println("\n" + list);
+        System.out.println("\t" + backTitle + "\n");
+        return checkIfBack();
+    }
+
+    /*
+    Methods to check inputs------------------------------------------------------------------------------------------
     */
 
     //Check Main Menu choice
@@ -127,8 +181,28 @@ class View {
         while (true) {
             answer = new Scanner(System.in);
             try {
+                int tempNumber = answer.nextInt();
+                if (tempNumber == 1 || tempNumber == 2 || tempNumber == 3 || tempNumber == 4 || tempNumber == 5 || tempNumber == 0) {
+                    retChoise = tempNumber;
+                    break;
+                } else {
+                    System.out.println("Try again!");
+                }
+            } catch (Exception e) {
+                System.out.println("Try again!");
+            }
+        }
+        return retChoise;
+    }
+
+    //Check search  choice
+    private int searchChoice() {
+        int retChoise;
+        while (true) {
+            answer = new Scanner(System.in);
+            try {
                 int tempnumber = answer.nextInt();
-                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 3 || tempnumber == 4|| tempnumber == 0) {
+                if (tempnumber == 1 || tempnumber == 2 || tempnumber == 3 || tempnumber == 0) {
                     retChoise = tempnumber;
                     break;
                 } else {
@@ -142,8 +216,8 @@ class View {
     }
 
     //Check movies list input
-    private int checkMoviesListInput() {
-        int retAnswer = 0;
+    private int checkIfBack() {
+        int retAnswer;
         while (true) {
             answer = new Scanner(System.in);
             try {
@@ -197,7 +271,7 @@ class View {
         return temReturn;
     }
 
-    //Check if type in int
+    //Check if type is int
     private int ifInt() {
         int number;
         while (true) {
@@ -214,13 +288,13 @@ class View {
 
     //Check ratings between 1 to 7
     private int checkRatings() {
-        int ratingAnswer = 0;
+        int ratingAnswer;
         while (true) {
             answer = new Scanner(System.in);
             try {
-                int ratingsNumber=answer.nextInt();
-                if (ratingsNumber>0&&ratingsNumber<=7) {
-                    ratingAnswer=ratingsNumber;
+                int ratingsNumber = answer.nextInt();
+                if (ratingsNumber > 0 && ratingsNumber <= 7) {
+                    ratingAnswer = ratingsNumber;
                     break;
                 } else System.out.println("Try again!");
             } catch (Exception e) {
@@ -230,6 +304,21 @@ class View {
         return ratingAnswer;
     }
 
+    private LocalDate checkIfDateIsCorrect() {
+        LocalDate date;
+        while (true) {
+            answer = new Scanner(System.in);
+            String dateInput = answer.nextLine();
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                date = LocalDate.parse(dateInput, formatter);
+                break;
+            } catch (DateTimeException e) {
+                System.out.println("Entered date is incorrect. Try again.");
+            }
+        }
+        return date;
+    }
 
     // Getters and cleaner to Add Film temporary variables.
     public String getTitleOfMovie() {

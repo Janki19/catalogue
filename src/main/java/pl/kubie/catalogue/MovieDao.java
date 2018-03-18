@@ -1,6 +1,7 @@
 package pl.kubie.catalogue;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class MovieDao {
@@ -15,18 +16,18 @@ public class MovieDao {
     /*
     Insert new record to database by two parameters "title" and "year".
     */
-    public void addMovie(Movie model) {
+    public void addUpdMovie(Movie model) {
         entityManager.getTransaction().begin();
         entityManager.persist(model);
         entityManager.getTransaction().commit();
-        System.out.println("New record added/updated");
+        System.out.println("Movie added/updated");
     }
 
     /*
     Display all records from data base.
     */
     public List<Movie> findAll() {
-        TypedQuery<Movie> query = entityManager.createQuery("SELECT  m FROM Movie m", Movie.class);
+        TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m", Movie.class);
         return query.getResultList();
     }
 
@@ -41,8 +42,16 @@ public class MovieDao {
         return movie;
     }
 
-    public void updateRating(int id, float rating, int votes) {
-        Query query = entityManager.createQuery("UPDATE Movie SET");
+    public List<Movie> searchByTitle(String eTitle) {
+        TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m WHERE m.title LIKE :eTitle", Movie.class);
+        query.setParameter("eTitle", "%" + eTitle + "%");
+        return query.getResultList();
+    }
+
+    public List<Movie> searchByDate(LocalDate eDate) {
+        TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m WHERE m.dateNow = :eDate", Movie.class);
+        query.setParameter("eDate", eDate);
+        return query.getResultList();
     }
 
     public void closeConnection() {
