@@ -111,14 +111,13 @@ class View {
     private final String ratings = "Movie ratings from 1 to 7.";
 
     public int displayRatingMovie(Movie movie) {
-        answer = new Scanner(System.in);
         System.out.println(movie);
         System.out.println(ratings);
         return checkRatings();
     }
 
     /*
-    Display search
+    Display search menu
      */
     private final String searchWelcome = "SEARCH MOVIE";
     private final String searchByTitle = "1. Search by title.";
@@ -143,6 +142,7 @@ class View {
         return answer.nextLine();
     }
 
+    //Display movies founded by title.
     private final String founded = "Founded movies with words: ";
 
     public int displaySearchByTitle(List<Movie> list, String title) {
@@ -161,6 +161,7 @@ class View {
         return checkIfDateIsCorrect();
     }
 
+    //Display movies founded by date.
     private final String foundedDate = "Founded movies added on: ";
 
     public int displaySearchByDate(List<Movie> list, LocalDate date) {
@@ -303,7 +304,7 @@ class View {
         }
         return ratingAnswer;
     }
-
+    //Checks if the date has been entered correctly
     private LocalDate checkIfDateIsCorrect() {
         LocalDate date;
         while (true) {
@@ -324,7 +325,6 @@ class View {
     public String getTitleOfMovie() {
         return titleOfMovie;
     }
-
     public String getYearOfMovie() {
         return yearOfMovie;
     }
@@ -333,6 +333,4 @@ class View {
         this.titleOfMovie = null;
         this.yearOfMovie = null;
     }
-
-
 }

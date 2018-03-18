@@ -1,11 +1,10 @@
 package pl.kubie.catalogue;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 class Controller {
-
-    private Movie model;
+    private MoviesRate moviesRate;
+    private Movie movieModel;
     private View view;
     private MovieDao mDao;
 
@@ -38,10 +37,18 @@ class Controller {
     }
 
     private void saveMovie() {
-        model = new Movie();
-        model.setTitle(view.getTitleOfMovie());
-        model.setYear(view.getYearOfMovie());
-        mDao.addUpdMovie(model);
+        movieModel = new Movie();
+        moviesRate=new MoviesRate();
+
+        movieModel.setTitle(view.getTitleOfMovie());
+        movieModel.setYear(view.getYearOfMovie());
+
+        moviesRate.setFourStars(5);
+        moviesRate.setFiveStars(3);
+
+        mDao.addUpdMovie(movieModel,moviesRate);
+
+        //mDao.updateRate(moviesRate);
         view.clearTitleYear();
     }
 
@@ -56,12 +63,16 @@ class Controller {
     }
 
     public void displayMoviesRatings() {
-        model = new Movie();
+        movieModel = new Movie();
+        moviesRate =new MoviesRate();
+
         int id = view.displayChoiseToRatings();
-        model = mDao.findById(id);
-        int rating = view.displayRatingMovie(model);
-        model.countRating(rating);
-        mDao.addUpdMovie(model);
+        movieModel = mDao.findById(id);
+        int rate = view.displayRatingMovie(movieModel);
+
+        moviesRate.setFourStars(rate);
+        //movieModel.countRating(rate);
+        //mDao.addUpdMovie(movieModel);
         backToMainMenu();
     }
 
