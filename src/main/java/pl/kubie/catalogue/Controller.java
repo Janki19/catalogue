@@ -39,16 +39,10 @@ class Controller {
     private void saveMovie() {
         movieModel = new Movie();
         moviesRate=new MoviesRate();
-
         movieModel.setTitle(view.getTitleOfMovie());
         movieModel.setYear(view.getYearOfMovie());
-
-        moviesRate.setFourStars(5);
-        moviesRate.setFiveStars(3);
-
-        mDao.addUpdMovie(movieModel,moviesRate);
-
-        //mDao.updateRate(moviesRate);
+        movieModel.setMovieRates(moviesRate);
+        mDao.addMovie(movieModel,moviesRate);
         view.clearTitleYear();
     }
 
@@ -65,15 +59,18 @@ class Controller {
     public void displayMoviesRatings() {
         movieModel = new Movie();
         moviesRate =new MoviesRate();
-
         int id = view.displayChoiseToRatings();
         movieModel = mDao.findById(id);
         int rate = view.displayRatingMovie(movieModel);
+        moviesRate=movieModel.getMovieRates();
+        moviesRate.setRate(rate);
 
-        moviesRate.setFourStars(rate);
-        //movieModel.countRating(rate);
-        //mDao.addUpdMovie(movieModel);
+
+
+
+        mDao.updRate(moviesRate);
         backToMainMenu();
+
     }
 
     public void searchMovie() {

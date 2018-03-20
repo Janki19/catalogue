@@ -16,13 +16,30 @@ public class MovieDao {
     /*
     Insert new record to database by two parameters "title" and "year".
     */
-    public void addUpdMovie(Movie model,MoviesRate moviesRate) {
+
+
+    public void addMovie(Movie model,MoviesRate rate) {
 
         entityManager.getTransaction().begin();
         entityManager.persist(model);
-        entityManager.persist(moviesRate);
+        entityManager.persist(rate);
         entityManager.getTransaction().commit();
         System.out.println("Movie added/updated");
+    }
+
+    public void updMovie(Movie model) {
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(model);
+        entityManager.getTransaction().commit();
+        System.out.println("Movie added/updated");
+    }
+
+    public void updRate(MoviesRate moviesRate){
+        entityManager.getTransaction().begin();
+        entityManager.persist(moviesRate);
+        entityManager.getTransaction().commit();
+        System.out.println("Rate updated");
     }
 
     /*
@@ -39,16 +56,16 @@ public class MovieDao {
         entityManager.getTransaction().commit();
     }
 
-    public void updateRate(MoviesRate moviesRate){
-        entityManager.getTransaction().begin();
-        entityManager.persist(moviesRate);
-        entityManager.getTransaction().commit();
-    }
-
     public Movie findById(int id) {
         Movie movie = entityManager.find(Movie.class, id);
         return movie;
     }
+    public MoviesRate findRateById(MoviesRate id) {
+        MoviesRate movieRate = entityManager.find(MoviesRate.class, id);
+        return movieRate;
+    }
+
+
 
     public List<Movie> searchByTitle(String eTitle) {
         TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m WHERE m.title LIKE :eTitle", Movie.class);
@@ -61,7 +78,6 @@ public class MovieDao {
         query.setParameter("eDate", eDate);
         return query.getResultList();
     }
-
 
     public void closeConnection() {
         entityManager.close();

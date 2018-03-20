@@ -87,6 +87,8 @@ class Movie {
         this.movieRates = movieRates;
     }
 
+
+
     //Calculates the average rating of the movie.
     // Need to be fixed
     public void countRating(int addRating) {
