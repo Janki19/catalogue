@@ -17,55 +17,39 @@ public class MovieDao {
     Insert new record to database by two parameters "title" and "year".
     */
 
-
-    public void addMovie(Movie model,MoviesRate rate) {
-
-        entityManager.getTransaction().begin();
-        entityManager.persist(model);
-        entityManager.persist(rate);
-        entityManager.getTransaction().commit();
-        System.out.println("Movie added/updated");
-    }
-
-    public void updMovie(Movie model) {
+    public void addMovie(Movie model) {
 
         entityManager.getTransaction().begin();
         entityManager.persist(model);
         entityManager.getTransaction().commit();
         System.out.println("Movie added/updated");
-    }
-
-    public void updRate(MoviesRate moviesRate){
-        entityManager.getTransaction().begin();
-        entityManager.persist(moviesRate);
-        entityManager.getTransaction().commit();
-        System.out.println("Rate updated");
     }
 
     /*
     Display all records from data base.
     */
-    public List<Movie> findAll() {
+    public List<Movie> showAll() {
         TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m", Movie.class);
         return query.getResultList();
     }
 
     public void deleteMovie(int id) {
         entityManager.getTransaction().begin();
-        entityManager.remove(findById(id));
+        entityManager.remove(searchById(id));
         entityManager.getTransaction().commit();
     }
 
-    public Movie findById(int id) {
+    public Movie searchById(int id) {
         Movie movie = entityManager.find(Movie.class, id);
         return movie;
     }
-    public MoviesRate findRateById(MoviesRate id) {
-        MoviesRate movieRate = entityManager.find(MoviesRate.class, id);
-        return movieRate;
+
+    public List<Movie> searchByRate(double rate) {
+        TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m WHERE m.rating >= ?1 and m.rating < ?2", Movie.class);
+        query.setParameter(1, rate);
+        query.setParameter(2, rate + 1);
+        return query.getResultList();
     }
-
-
 
     public List<Movie> searchByTitle(String eTitle) {
         TypedQuery<Movie> query = entityManager.createQuery("SELECT m FROM Movie m WHERE m.title LIKE :eTitle", Movie.class);

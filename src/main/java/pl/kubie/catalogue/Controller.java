@@ -20,7 +20,7 @@ class Controller {
     }
 
     public void displayMoviesList() {
-        int menuAnswer = view.displayMoviesList(mDao.findAll());
+        int menuAnswer = view.displayMoviesList(mDao.showAll());
         switchToBackToMenu(menuAnswer);
     }
 
@@ -38,17 +38,16 @@ class Controller {
 
     private void saveMovie() {
         movieModel = new Movie();
-        moviesRate=new MoviesRate();
+        moviesRate = new MoviesRate();
         movieModel.setTitle(view.getTitleOfMovie());
         movieModel.setYear(view.getYearOfMovie());
-        movieModel.setMovieRates(moviesRate);
-        mDao.addMovie(movieModel,moviesRate);
+        mDao.addMovie(movieModel);
         view.clearTitleYear();
     }
 
     public void displayRemoveMovie() {
         int id = view.displayRemove();
-        if (view.displayRemoveConfirm(mDao.findById(id))) {
+        if (view.displayRemoveConfirm(mDao.searchById(id))) {
             mDao.deleteMovie(id);
             backToMainMenu();
         } else {
@@ -58,19 +57,16 @@ class Controller {
 
     public void displayMoviesRatings() {
         movieModel = new Movie();
-        moviesRate =new MoviesRate();
+        moviesRate = new MoviesRate();
         int id = view.displayChoiseToRatings();
-        movieModel = mDao.findById(id);
+        movieModel = mDao.searchById(id);
         int rate = view.displayRatingMovie(movieModel);
-        moviesRate=movieModel.getMovieRates();
+
         moviesRate.setRate(rate);
-
-
-
-
-        mDao.updRate(moviesRate);
+        movieModel.getRateList().add(moviesRate);
+        movieModel.setRating(movieModel.calculateRating());
+        mDao.addMovie(movieModel);
         backToMainMenu();
-
     }
 
     public void searchMovie() {
@@ -87,6 +83,12 @@ class Controller {
     public void searchByDate() {
         LocalDate date = view.searchByDate();
         int menu = view.displaySearchByDate(mDao.searchByDate(date), date);
+        switchToBackToMenu(menu);
+    }
+
+    public void searchByRate(){
+        double rate=view.searchByRate();
+        int menu=view.displaySearchByRate(mDao.searchByRate(rate),rate);
         switchToBackToMenu(menu);
     }
 
@@ -117,7 +119,6 @@ class Controller {
         }
     }
 
-
     /*
     Method to handle the selection in Films List
     */
@@ -138,7 +139,7 @@ class Controller {
                 searchByTitle();
                 break;
             case 2:
-
+                searchByRate();
                 break;
             case 3:
                 searchByDate();

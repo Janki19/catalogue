@@ -1,23 +1,28 @@
 package pl.kubie.catalogue;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.*;
 
 @Entity
-class Movie {
+public class Movie {
     @Id
     @GeneratedValue
     private int id;
 
     private String title;
     private String year;
-    private float rating;
+    private double rating;
     private int votes;
     @Column(name = "date")
     private LocalDate dateNow=LocalDate.now();
 
-    @OneToOne
-    private MoviesRate movieRates;
+    @ElementCollection
+    private List<MoviesRate>rateList=new ArrayList<>();
+
+    @ElementCollection
+    private List<String>commentsList=new ArrayList<>();
 
     public Movie() {
     }
@@ -29,6 +34,22 @@ class Movie {
         this.year = year;
         this.rating = rating;
         this.votes = votes;
+    }
+
+    public List<String> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<String> commentsList) {
+        this.commentsList = commentsList;
+    }
+
+    public List<MoviesRate> getRateList() {
+        return rateList;
+    }
+
+    public void setRateList(List<MoviesRate> rateList) {
+        this.rateList = rateList;
     }
 
     public int getId() {
@@ -55,11 +76,11 @@ class Movie {
         this.year = year;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(double rating) {
         this.rating = rating;
     }
 
@@ -79,21 +100,14 @@ class Movie {
         this.dateNow = dateNow;
     }
 
-    public MoviesRate getMovieRates() {
-        return movieRates;
-    }
-
-    public void setMovieRates(MoviesRate movieRates) {
-        this.movieRates = movieRates;
-    }
-
-
-
-    //Calculates the average rating of the movie.
-    // Need to be fixed
-    public void countRating(int addRating) {
-        this.votes++;
-        this.rating = (this.rating + addRating) / votes;
+    public double calculateRating(){
+        DecimalFormat df=new DecimalFormat("0.0");
+        double sum=0;
+        for(MoviesRate rateList:rateList){
+            sum+=rateList.getRate();
+        }
+        double retRate= Double.parseDouble(df.format(sum/rateList.size()));
+        return retRate;
     }
 
     public String toString() {

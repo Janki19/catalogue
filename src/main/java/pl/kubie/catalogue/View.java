@@ -172,6 +172,26 @@ class View {
         return checkIfBack();
     }
 
+    //Search by title
+    private final String questionRate = "Type in rate of movie.";
+
+    public int searchByRate() {
+        System.out.println(questionRate);
+        return ifInt();
+    }
+
+    //Display movies founded by rate.
+    private final String foundedRate = "Founded movies with rating: ";
+
+    public int displaySearchByRate(List<Movie> list, double rate) {
+        int intRate= (int) rate;
+        System.out.println(borderLine);
+        System.out.println("\n\t" + foundedRate + "' " + intRate + " '");
+        System.out.println("\n" + list);
+        System.out.println("\t" + backTitle + "\n");
+        return checkIfBack();
+    }
+
     /*
     Methods to check inputs------------------------------------------------------------------------------------------
     */
