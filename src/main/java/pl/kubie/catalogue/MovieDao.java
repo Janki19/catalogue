@@ -40,8 +40,7 @@ public class MovieDao {
     }
 
     public Movie searchById(int id) {
-        Movie movie = entityManager.find(Movie.class, id);
-        return movie;
+        return entityManager.find(Movie.class, id);
     }
 
     public List<Movie> searchByRate(double rate) {

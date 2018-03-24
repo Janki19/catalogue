@@ -27,15 +27,6 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(int id, String title, String year, float rating, int votes) {
-
-        this.id = id;
-        this.title = title;
-        this.year = year;
-        this.rating = rating;
-        this.votes = votes;
-    }
-
     public List<String> getCommentsList() {
         return commentsList;
     }

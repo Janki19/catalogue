@@ -3,7 +3,6 @@ package pl.kubie.catalogue;
 import java.time.LocalDate;
 
 class Controller {
-    private MoviesRate moviesRate;
     private Movie movieModel;
     private View view;
     private MovieDao mDao;
@@ -26,13 +25,11 @@ class Controller {
 
     public void displayAddMovie() {
         movieModel = new Movie();
-        boolean saveAnswer = view.dispalyAdd();
+        boolean saveAnswer = view.displayAdd();
         if (saveAnswer) {
             saveMovie(movieModel);
-            view.clearTitleYear();
             backToMainMenu();
         } else {
-            view.clearTitleYear();
             backToMainMenu();
         }
     }
@@ -44,10 +41,8 @@ class Controller {
 
         if (saveAnswer) {
             saveMovie(movieModel);
-            view.clearTitleYear();
             backToMainMenu();
         } else {
-            view.clearTitleYear();
             backToMainMenu();
         }
     }
@@ -56,7 +51,6 @@ class Controller {
         movie.setTitle(view.getTitleOfMovie());
         movie.setYear(view.getYearOfMovie());
         mDao.addMovie(movie);
-        view.clearTitleYear();
     }
 
     public void displayRemoveMovie() {
@@ -71,7 +65,7 @@ class Controller {
 
     public void displayMoviesRatings() {
         movieModel = new Movie();
-        moviesRate = new MoviesRate();
+        MoviesRate moviesRate = new MoviesRate();
         int id = view.displayChoiseToRatings();
         movieModel = mDao.searchById(id);
         int rate = view.displayRatingMovie(movieModel);
@@ -183,9 +177,6 @@ class Controller {
                 break;
             case 3:
                 searchByDate();
-                break;
-            case 0:
-                backToMainMenu();
                 break;
         }
     }
