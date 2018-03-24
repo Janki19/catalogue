@@ -24,10 +24,26 @@ class Controller {
         switchToBackToMenu(menuAnswer);
     }
 
-    public void displayAddFilm() {
+    public void displayAddMovie() {
+        movieModel = new Movie();
         boolean saveAnswer = view.dispalyAdd();
         if (saveAnswer) {
-            saveMovie();
+            saveMovie(movieModel);
+            view.clearTitleYear();
+            backToMainMenu();
+        } else {
+            view.clearTitleYear();
+            backToMainMenu();
+        }
+    }
+    public void displayEditMovie() {
+        int editId=view.choiceMovieToEdit();
+        movieModel=new Movie();
+        movieModel=mDao.searchById(editId);
+        boolean saveAnswer = view.enterEditMovie(movieModel);
+
+        if (saveAnswer) {
+            saveMovie(movieModel);
             view.clearTitleYear();
             backToMainMenu();
         } else {
@@ -36,12 +52,10 @@ class Controller {
         }
     }
 
-    private void saveMovie() {
-        movieModel = new Movie();
-        moviesRate = new MoviesRate();
-        movieModel.setTitle(view.getTitleOfMovie());
-        movieModel.setYear(view.getYearOfMovie());
-        mDao.addMovie(movieModel);
+    private void saveMovie(Movie movie) {
+        movie.setTitle(view.getTitleOfMovie());
+        movie.setYear(view.getYearOfMovie());
+        mDao.addMovie(movie);
         view.clearTitleYear();
     }
 
@@ -92,6 +106,23 @@ class Controller {
         switchToBackToMenu(menu);
     }
 
+    public void addComment(){
+        int movieId=view.displayChoiseToComment();
+        movieModel=new Movie();
+        movieModel=mDao.searchById(movieId);
+        movieModel.getCommentsList().add(view.displayEnterComment(movieModel));
+        mDao.addMovie(movieModel);
+        backToMainMenu();
+    }
+
+    public void showComment(){
+        int movieId=view.displayShowComment();
+        movieModel=new Movie();
+        movieModel=mDao.searchById(movieId);
+        int menu=view.displayComments(movieModel);
+        switchToBackToMenu(menu);
+    }
+
     /*
         Method to handle the selection in Main Menu
      */
@@ -101,7 +132,7 @@ class Controller {
                 displayMoviesList();
                 break;
             case 2:
-                displayAddFilm();
+                displayAddMovie();
                 break;
             case 3:
                 displayRemoveMovie();
@@ -111,6 +142,15 @@ class Controller {
                 break;
             case 5:
                 searchMovie();
+                break;
+            case 6:
+                displayEditMovie();
+                break;
+            case 7:
+                addComment();
+                break;
+            case 8:
+                showComment();
                 break;
             case 0:
                 mDao.closeConnection();

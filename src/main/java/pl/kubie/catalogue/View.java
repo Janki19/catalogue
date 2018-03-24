@@ -26,6 +26,9 @@ class View {
     private final String removeMovie = "[3] Remove movie";
     private final String movieRatings = "[4] Movies ratings";
     private final String movieSearch = "[5] Search movie";
+    private final String editMovie = "[6] Edit movie";
+    private final String addComent = "[7] Add comment";
+    private final String showComent = "[8] Show comment";
     private final String exit = "[0] EXIT";
 
     public int displayMainMenuView() {
@@ -35,6 +38,9 @@ class View {
         System.out.println("\t\t" + removeMovie);
         System.out.println("\t\t" + movieRatings);
         System.out.println("\t\t" + movieSearch);
+        System.out.println("\t\t" + editMovie);
+        System.out.println("\t\t" + addComent);
+        System.out.println("\t\t" + showComent);
         System.out.println("\n\t\t" + exit);
         return mainMenuChoice();
     }
@@ -74,10 +80,35 @@ class View {
     }
 
     /*
+    Edit movie
+     */
+    private final String editWelcome = "EDIT MOVIE";
+    private final String editNrQuestion = "Enter the ID of the movie you want to edit.";
+
+    public int choiceMovieToEdit() {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + editWelcome + "\n");
+        System.out.println(editNrQuestion);
+        return ifInt();
+    }
+
+    private final String editing = "You are editing ";
+
+    public boolean enterEditMovie(Movie movie) {
+        System.out.println(editing + movie);
+        System.out.println(titleRequest);
+        this.titleOfMovie = answer.next();
+        System.out.println("\n" + yearRequest);
+        this.yearOfMovie = yearInput();
+        System.out.println("\n" + saveRequest);
+        return selectYesNo();
+    }
+
+    /*
     Remove movie view-----------------------------------------------------------------------
      */
     private final String welcomeRemove = "REMOVE MOVIE FROM LIST";
-    private final String removeQuestion = "Type in number of the movie to be removed.";
+    private final String removeQuestion = "Enter ID of the movie to be removed.";
     private final String removeConfirm = "Are you sure you want to delete this movie? Y/N";
 
     public int displayRemove() {
@@ -184,10 +215,57 @@ class View {
     private final String foundedRate = "Founded movies with rating: ";
 
     public int displaySearchByRate(List<Movie> list, double rate) {
-        int intRate= (int) rate;
+        int intRate = (int) rate;
         System.out.println(borderLine);
         System.out.println("\n\t" + foundedRate + "' " + intRate + " '");
         System.out.println("\n" + list);
+        System.out.println("\t" + backTitle + "\n");
+        return checkIfBack();
+    }
+
+    /*
+    Enter movie comments
+    */
+    private final String commentWelcome = "MOVIES COMMENT";
+    private final String commentNrQuestipn = "Enter ID of the movie you want to comment.";
+
+    public int displayChoiseToComment() {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + commentWelcome + "\n");
+        System.out.println(commentNrQuestipn);
+        return ifInt();
+    }
+
+    private final String commentQuestion = "Enter a comment for the movie: ";
+
+    public String displayEnterComment(Movie movie) {
+        answer=new Scanner(System.in);
+        System.out.println(commentQuestion +movie) ;
+        return answer.nextLine();
+    }
+
+    /*
+    Show movie comments
+    */
+    private final String comments = "COMMENTS";
+    private final String idComments = "Enter ID of movie which comments you want to see.";
+
+    public int displayShowComment() {
+        System.out.println(borderLine);
+        System.out.println("\n\t" + comments + "\n");
+        System.out.println(idComments);
+        return ifInt();
+    }
+
+    private final String showComments = "Here are the comments for the movie ";
+    public int displayComments(Movie movie) {
+        System.out.print(showComments+ movie);
+        List<String>comm=movie.getCommentsList();
+        for(String com:comm) {
+            System.out.println(" ");
+            System.out.println("*** "+com+" ***");
+        }
+        System.out.println(" ");
         System.out.println("\t" + backTitle + "\n");
         return checkIfBack();
     }
@@ -203,7 +281,7 @@ class View {
             answer = new Scanner(System.in);
             try {
                 int tempNumber = answer.nextInt();
-                if (tempNumber == 1 || tempNumber == 2 || tempNumber == 3 || tempNumber == 4 || tempNumber == 5 || tempNumber == 0) {
+                if (tempNumber >= 0 && tempNumber < 9) {
                     retChoise = tempNumber;
                     break;
                 } else {
@@ -324,6 +402,7 @@ class View {
         }
         return ratingAnswer;
     }
+
     //Checks if the date has been entered correctly
     private LocalDate checkIfDateIsCorrect() {
         LocalDate date;
@@ -345,6 +424,7 @@ class View {
     public String getTitleOfMovie() {
         return titleOfMovie;
     }
+
     public String getYearOfMovie() {
         return yearOfMovie;
     }
