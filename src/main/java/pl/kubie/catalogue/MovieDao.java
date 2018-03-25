@@ -33,9 +33,9 @@ public class MovieDao {
         return query.getResultList();
     }
 
-    public void deleteMovie(int id) {
+    public void deleteMovie(Movie model) {
         entityManager.getTransaction().begin();
-        entityManager.remove(searchById(id));
+        entityManager.remove(model);
         entityManager.getTransaction().commit();
     }
 

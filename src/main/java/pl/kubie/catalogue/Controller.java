@@ -13,17 +13,17 @@ class Controller {
         displayMainMenu();
     }
 
-    public void displayMainMenu() {
+    private void displayMainMenu() {
         int menuAnswer = view.displayMainMenuView();
         switchMainMenu(menuAnswer);
     }
 
-    public void displayMoviesList() {
+    private void displayMoviesList() {
         int menuAnswer = view.displayMoviesList(mDao.showAll());
         switchToBackToMenu(menuAnswer);
     }
 
-    public void displayAddMovie() {
+    private void displayAddMovie() {
         movieModel = new Movie();
         boolean saveAnswer = view.displayAdd();
         if (saveAnswer) {
@@ -33,12 +33,10 @@ class Controller {
             backToMainMenu();
         }
     }
-    public void displayEditMovie() {
-        int editId=view.choiceMovieToEdit();
-        movieModel=new Movie();
-        movieModel=mDao.searchById(editId);
-        boolean saveAnswer = view.enterEditMovie(movieModel);
 
+    private void displayEditMovie() {
+        view.choiceMovieToEdit();
+        boolean saveAnswer = view.enterEditMovie(ifNull());
         if (saveAnswer) {
             saveMovie(movieModel);
             backToMainMenu();
@@ -53,23 +51,21 @@ class Controller {
         mDao.addMovie(movie);
     }
 
-    public void displayRemoveMovie() {
-        int id = view.displayRemove();
-        if (view.displayRemoveConfirm(mDao.searchById(id))) {
-            mDao.deleteMovie(id);
+    private void displayRemoveMovie() {
+        view.displayRemove();
+        boolean removeAnswer = view.displayRemoveConfirm(ifNull());
+        if (removeAnswer) {
+            mDao.deleteMovie(movieModel);
             backToMainMenu();
         } else {
             backToMainMenu();
         }
     }
 
-    public void displayMoviesRatings() {
-        movieModel = new Movie();
+    private void displayMoviesRatings() {
         MoviesRate moviesRate = new MoviesRate();
-        int id = view.displayChoiseToRatings();
-        movieModel = mDao.searchById(id);
-        int rate = view.displayRatingMovie(movieModel);
-
+        view.displayChoiceToRatings();
+        int rate = view.displayRatingMovie(ifNull());
         moviesRate.setRate(rate);
         movieModel.getRateList().add(moviesRate);
         movieModel.setRating(movieModel.calculateRating());
@@ -77,50 +73,49 @@ class Controller {
         backToMainMenu();
     }
 
-    public void searchMovie() {
+    private void searchMovie() {
         int choice = view.displaySearchMenu();
         switchSearch(choice);
     }
 
-    public void searchByTitle() {
+    private void searchByTitle() {
         String answer = view.searchByTitle();
         int menu = view.displaySearchByTitle(mDao.searchByTitle(answer), answer);
         switchToBackToMenu(menu);
     }
 
-    public void searchByDate() {
+    private void searchByDate() {
         LocalDate date = view.searchByDate();
         int menu = view.displaySearchByDate(mDao.searchByDate(date), date);
         switchToBackToMenu(menu);
     }
 
-    public void searchByRate(){
-        double rate=view.searchByRate();
-        int menu=view.displaySearchByRate(mDao.searchByRate(rate),rate);
+    private void searchByRate() {
+        double rate = view.searchByRate();
+        int menu = view.displaySearchByRate(mDao.searchByRate(rate), rate);
         switchToBackToMenu(menu);
     }
 
-    public void addComment(){
-        int movieId=view.displayChoiseToComment();
-        movieModel=new Movie();
-        movieModel=mDao.searchById(movieId);
+    private void addComment() {
+        view.displayChoiceToComment();
+        movieModel = ifNull();
         movieModel.getCommentsList().add(view.displayEnterComment(movieModel));
         mDao.addMovie(movieModel);
         backToMainMenu();
     }
 
-    public void showComment(){
-        int movieId=view.displayShowComment();
-        movieModel=new Movie();
-        movieModel=mDao.searchById(movieId);
-        int menu=view.displayComments(movieModel);
+    private void showComment() {
+        int movieId = view.displayShowComment();
+        movieModel = new Movie();
+        movieModel = mDao.searchById(movieId);
+        int menu = view.displayComments(movieModel);
         switchToBackToMenu(menu);
     }
 
     /*
         Method to handle the selection in Main Menu
      */
-    public void switchMainMenu(int number) {
+    private void switchMainMenu(int number) {
         switch (number) {
             case 1:
                 displayMoviesList();
@@ -156,7 +151,7 @@ class Controller {
     /*
     Method to handle the selection in Films List
     */
-    public void switchToBackToMenu(int number) {
+    private void switchToBackToMenu(int number) {
         switch (number) {
             case 9:
                 displayMainMenu();
@@ -167,7 +162,7 @@ class Controller {
     /*
     Method to handle the selection in Search Menu
  */
-    public void switchSearch(int number) {
+    private void switchSearch(int number) {
         switch (number) {
             case 1:
                 searchByTitle();
@@ -184,8 +179,22 @@ class Controller {
     /*
     Method to handle the selection in Add Movie
     */
-    public void backToMainMenu() {
+    private void backToMainMenu() {
         displayMainMenu();
+    }
+
+
+    //Checking searchById return.
+    private Movie ifNull() {
+        while (true) {
+            movieModel = mDao.searchById(view.enterId());
+            if (movieModel != null) {
+                break;
+            } else {
+                view.idNotFounded();
+            }
+        }
+        return movieModel;
     }
 
 }

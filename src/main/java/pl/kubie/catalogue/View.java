@@ -58,11 +58,10 @@ class View {
     /*
     Edit movie
      */
-    public int choiceMovieToEdit() {
+
+    public void choiceMovieToEdit() {
         System.out.println(borderLine);
         System.out.println("\n\t" + "EDIT MOVIE" + "\n");
-        System.out.println("Enter the ID of the movie you want to edit.");
-        return checkReturn.ifInt();
     }
 
     public boolean enterEditMovie(Movie movie) {
@@ -78,11 +77,9 @@ class View {
     /*
     Remove movie view-----------------------------------------------------------------------
      */
-    public int displayRemove() {
+    public void displayRemove() {
         System.out.println(borderLine);
         System.out.println("\n\t" + "REMOVE MOVIE FROM LIST" + "\n");
-        System.out.println("Enter ID of the movie to be removed.");
-        return checkReturn.ifInt();
     }
 
     public boolean displayRemoveConfirm(Movie movie) {
@@ -94,11 +91,9 @@ class View {
     /*
     Display movie rating
     */
-    public int displayChoiseToRatings() {
+    public void displayChoiceToRatings() {
         System.out.println(borderLine);
         System.out.println("\n\t" + "MOVIES RATING" + "\n");
-        System.out.println("Enter the number of the movie you want to rate.");
-        return checkReturn.ifInt();
     }
 
     public int displayRatingMovie(Movie movie) {
@@ -168,11 +163,9 @@ class View {
     /*
     Enter movie comments
     */
-    public int displayChoiseToComment() {
+    public void displayChoiceToComment() {
         System.out.println(borderLine);
         System.out.println("\n\t" + "MOVIES COMMENT" + "\n");
-        System.out.println("Enter ID of the movie you want to comment.");
-        return checkReturn.ifInt();
     }
 
     public String displayEnterComment(Movie movie) {
@@ -200,6 +193,15 @@ class View {
         System.out.println(" ");
         System.out.println("\t" + backTitle + "\n");
         return checkReturn.checkIfBack();
+    }
+
+    public void idNotFounded(){
+        System.out.print("ID not founded! Try again."+"\n");
+    }
+
+    public int enterId(){
+        System.out.print("Enter ID of movie: ");
+        return  checkReturn.ifInt();
     }
 
     // Getters and cleaner to Add Film temporary variables.
