@@ -7,8 +7,6 @@ class View {
     private ViewAnswers checkReturn = new ViewAnswers();
     private final String backTitle = "[9] Back to main menu";
     private final String borderLine = "--------------------------------------------------------------------------";
-    private String titleOfMovie;
-    private String yearOfMovie;
 
     View() {
     }
@@ -44,13 +42,19 @@ class View {
     /*
        Add movie view------------------------------------------------------------
     */
-    public boolean displayAdd() {
+    public String displayAddTitle() {
         System.out.println(borderLine);
         System.out.println("\n\t" + "ADD MOVIE TO LIST" + "\n");
         System.out.println("Type in the title of movie:");
-        this.titleOfMovie = checkReturn.stringAnswer();
+        return checkReturn.stringAnswer();
+    }
+
+    public String displayAddYear() {
         System.out.println("\n" + "Type in a year of production:");
-        this.yearOfMovie = checkReturn.yearInput();
+        return checkReturn.yearInput();
+    }
+
+    public boolean displayAddConfirmation() {
         System.out.println("\n" + "Do you want to addUpdMovie this movie Y/N");
         return checkReturn.selectYesNo();
     }
@@ -64,15 +68,22 @@ class View {
         System.out.println("\n\t" + "EDIT MOVIE" + "\n");
     }
 
-    public boolean enterEditMovie(Movie movie) {
+    public String enterEditTitle(Movie movie) {
         System.out.println("You are editing " + movie);
         System.out.println("Type in the title of movie:");
-        this.titleOfMovie = checkReturn.stringAnswer();
+        return checkReturn.stringAnswer();
+    }
+
+    public String displayEditYear() {
         System.out.println("\n" + "Type in a year of production:");
-        this.yearOfMovie = checkReturn.yearInput();
+        return checkReturn.yearInput();
+    }
+
+    public boolean displayEditConfirmation() {
         System.out.println("\n" + "Do you want to addUpdMovie this movie Y/N");
         return checkReturn.selectYesNo();
     }
+
 
     /*
     Remove movie view-----------------------------------------------------------------------
@@ -176,11 +187,9 @@ class View {
     /*
     Show movie comments
     */
-    public int displayShowComment() {
+    public void displayShowComment() {
         System.out.println(borderLine);
-        System.out.println("\n\t" + "COMMENTS" + "\n");
-        System.out.println("Enter ID of movie which comments you want to see.");
-        return checkReturn.ifInt();
+        System.out.println("\n\t" + "SHOW COMMENTS" + "\n");
     }
 
     public int displayComments(Movie movie) {
@@ -195,21 +204,13 @@ class View {
         return checkReturn.checkIfBack();
     }
 
-    public void idNotFounded(){
-        System.out.print("ID not founded! Try again."+"\n");
+    public void idNotFounded() {
+        System.out.print("ID not founded! Try again." + "\n");
     }
 
-    public int enterId(){
+    public int enterId() {
         System.out.print("Enter ID of movie: ");
-        return  checkReturn.ifInt();
+        return checkReturn.ifInt();
     }
 
-    // Getters and cleaner to Add Film temporary variables.
-    public String getTitleOfMovie() {
-        return titleOfMovie;
-    }
-
-    public String getYearOfMovie() {
-        return yearOfMovie;
-    }
 }
