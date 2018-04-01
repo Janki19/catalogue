@@ -46,19 +46,18 @@ public class ViewAnswers {
     }
 
     //Check movies list input
-    public int checkIfBack() {
-        int retAnswer;
+    public void checkIfBack() {
         while (true) {
             try {
                 if (intAnswer() == 9) {
-                    retAnswer = 9;
                     break;
                 } else System.out.println("Try again!");
             } catch (Exception e) {
                 System.out.println("Try again!");
+
             }
         }
-        return retAnswer;
+
     }
 
     //Checking Add New Movies input
@@ -146,12 +145,12 @@ public class ViewAnswers {
     }
 
     public String stringAnswer() {
-        Scanner answer = new Scanner(System.in);
+        Scanner answer=new Scanner(System.in);
         return answer.nextLine();
     }
 
-    public int intAnswer() {
-        Scanner answer = new Scanner(System.in);
+    private int intAnswer() {
+        Scanner answer=new Scanner(System.in);
         return answer.nextInt();
     }
 }

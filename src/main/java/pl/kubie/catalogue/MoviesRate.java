@@ -9,14 +9,6 @@ public class MoviesRate {
     private int rate;
     private LocalDate addDate = LocalDate.now();
 
-    public LocalDate getAddDate() {
-        return addDate;
-    }
-
-    public void setAddDate(LocalDate addDate) {
-        this.addDate = addDate;
-    }
-
     public int getRate() {
         return rate;
     }

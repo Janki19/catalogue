@@ -5,12 +5,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MovieDao {
-    private EntityManagerFactory entityManagerFactory;
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
-    public MovieDao() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("MyJpa");
-        entityManager = entityManagerFactory.createEntityManager();
+    public MovieDao(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     /*
@@ -18,11 +16,9 @@ public class MovieDao {
     */
 
     public void addMovie(Movie model) {
-
         entityManager.getTransaction().begin();
         entityManager.persist(model);
         entityManager.getTransaction().commit();
-        System.out.println("Movie added/updated");
     }
 
     /*
@@ -62,10 +58,7 @@ public class MovieDao {
         return query.getResultList();
     }
 
-    public void closeConnection() {
-        entityManager.close();
-        entityManagerFactory.close();
-    }
+
 }
 
 

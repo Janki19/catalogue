@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 class View {
-    private ViewAnswers checkReturn = new ViewAnswers();
+    private ViewAnswers answer;
     private final String backTitle = "[9] Back to main menu";
     private final String borderLine = "--------------------------------------------------------------------------";
 
     View() {
+        answer = new ViewAnswers();
     }
 
     /*
@@ -25,18 +26,18 @@ class View {
         System.out.println("\t\t" + "[7] Add comment");
         System.out.println("\t\t" + "[8] Show comment");
         System.out.println("\n\t\t" + "[0] EXIT");
-        return checkReturn.mainMenuChoice();
+        return answer.mainMenuChoice();
     }
 
     /*
       Movies list view------------------------------------------------------
    */
-    public int displayMoviesList(List<Movie> list) {
+    public void displayMoviesList(List<Movie> list) {
         System.out.println(borderLine);
         System.out.println("\n\t" + "MOVIES LIST" + "\n");
         System.out.println(list);
         System.out.println("\t" + backTitle + "\n");
-        return checkReturn.checkIfBack();
+        answer.checkIfBack();
     }
 
     /*
@@ -46,17 +47,17 @@ class View {
         System.out.println(borderLine);
         System.out.println("\n\t" + "ADD MOVIE TO LIST" + "\n");
         System.out.println("Type in the title of movie:");
-        return checkReturn.stringAnswer();
+        return answer.stringAnswer();
     }
 
     public String displayAddYear() {
         System.out.println("\n" + "Type in a year of production:");
-        return checkReturn.yearInput();
+        return answer.yearInput();
     }
 
     public boolean displayAddConfirmation() {
         System.out.println("\n" + "Do you want to addUpdMovie this movie Y/N");
-        return checkReturn.selectYesNo();
+        return answer.selectYesNo();
     }
 
     /*
@@ -71,17 +72,17 @@ class View {
     public String enterEditTitle(Movie movie) {
         System.out.println("You are editing " + movie);
         System.out.println("Type in the title of movie:");
-        return checkReturn.stringAnswer();
+        return answer.stringAnswer();
     }
 
     public String displayEditYear() {
         System.out.println("\n" + "Type in a year of production:");
-        return checkReturn.yearInput();
+        return answer.yearInput();
     }
 
     public boolean displayEditConfirmation() {
         System.out.println("\n" + "Do you want to addUpdMovie this movie Y/N");
-        return checkReturn.selectYesNo();
+        return answer.selectYesNo();
     }
 
 
@@ -96,7 +97,7 @@ class View {
     public boolean displayRemoveConfirm(Movie movie) {
         System.out.println(movie);
         System.out.println("Are you sure you want to delete this movie? Y/N");
-        return checkReturn.selectYesNo();
+        return answer.selectYesNo();
     }
 
     /*
@@ -110,7 +111,7 @@ class View {
     public int displayRatingMovie(Movie movie) {
         System.out.println(movie);
         System.out.println("Movie ratings from 1 to 7.");
-        return checkReturn.checkRatings();
+        return answer.checkRatings();
     }
 
     /*
@@ -122,53 +123,53 @@ class View {
         System.out.println("\t\t" + "1. Search by title.");
         System.out.println("\t\t" + "2. Search by rate.");
         System.out.println("\t\t" + "3. Search by date of adding.");
-        return checkReturn.searchChoice();
+        return answer.searchChoice();
     }
 
     //Search by title
     public String searchByTitle() {
         System.out.println("Type in title of movie.");
-        return checkReturn.stringAnswer();
+        return answer.stringAnswer();
     }
 
     //Display movies founded by title.
-    public int displaySearchByTitle(List<Movie> list, String title) {
+    public void displaySearchByTitle(List<Movie> list, String title) {
         System.out.println(borderLine);
         System.out.println("\n\t" + "Founded movies with words: " + "' " + title + " '");
         System.out.println("\n" + list);
         System.out.println("\t" + backTitle + "\n");
-        return checkReturn.checkIfBack();
+        answer.checkIfBack();
     }
 
     //Search by date
     public LocalDate searchByDate() {
         System.out.println("Type in date of add to search (yyyyMMdd).");
-        return checkReturn.checkIfDateIsCorrect();
+        return answer.checkIfDateIsCorrect();
     }
 
     //Display movies founded by date.
-    public int displaySearchByDate(List<Movie> list, LocalDate date) {
+    public void displaySearchByDate(List<Movie> list, LocalDate date) {
         System.out.println(borderLine);
         System.out.println("\n\t" + "Founded movies added on: " + "' " + date + " '");
         System.out.println("\n" + list);
         System.out.println("\t" + backTitle + "\n");
-        return checkReturn.checkIfBack();
+        answer.checkIfBack();
     }
 
     //Search by rate
     public int searchByRate() {
         System.out.println("Type in rate of movie.");
-        return checkReturn.ifInt();
+        return answer.ifInt();
     }
 
     //Display movies founded by rate.
-    public int displaySearchByRate(List<Movie> list, double rate) {
+    public void displaySearchByRate(List<Movie> list, double rate) {
         int intRate = (int) rate;
         System.out.println(borderLine);
         System.out.println("\n\t" + "Founded movies with rating: " + "' " + intRate + " '");
         System.out.println("\n" + list);
         System.out.println("\t" + backTitle + "\n");
-        return checkReturn.checkIfBack();
+        answer.checkIfBack();
     }
 
     /*
@@ -181,7 +182,7 @@ class View {
 
     public String displayEnterComment(Movie movie) {
         System.out.println("Enter a comment for the movie: " + movie);
-        return checkReturn.stringAnswer();
+        return answer.stringAnswer();
     }
 
     /*
@@ -192,7 +193,7 @@ class View {
         System.out.println("\n\t" + "SHOW COMMENTS" + "\n");
     }
 
-    public int displayComments(Movie movie) {
+    public void displayComments(Movie movie) {
         System.out.print("Here are the comments for the movie " + movie);
         List<String> comm = movie.getCommentsList();
         for (String com : comm) {
@@ -201,7 +202,7 @@ class View {
         }
         System.out.println(" ");
         System.out.println("\t" + backTitle + "\n");
-        return checkReturn.checkIfBack();
+        answer.checkIfBack();
     }
 
     public void idNotFounded() {
@@ -210,7 +211,7 @@ class View {
 
     public int enterId() {
         System.out.print("Enter ID of movie: ");
-        return checkReturn.ifInt();
+        return answer.ifInt();
     }
 
 }
